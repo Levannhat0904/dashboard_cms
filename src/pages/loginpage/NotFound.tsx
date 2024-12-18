@@ -1,7 +1,7 @@
 import React from 'react'
 
 const NotFound = () => {
-  return <div>hehehs</div>
+  return <div>NotFound</div>
 }
 
 export default NotFound
