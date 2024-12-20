@@ -5,21 +5,12 @@
 *,
 ::before,
 ::after {
-        box-sizing: border-box;
-        border-width: 0;
-        border-style: solid;
-        border-color: #e5e7eb;
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
 }
 
 a {
-        text-decoration: none !important;
+  text-decoration: none !important;
 }
-
-/* Loại bỏ nền mặc định khi chọn item */
-/* .custom-menu .ant-menu-item-selected {
-        background-color: transparent !important;
-}
-
-.custom-menu .ant-menu-submenu-selected {
-        background-color: transparent !important;
-} */

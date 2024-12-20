@@ -74,7 +74,7 @@ const SignInForm: React.FC = () => {
 
       {/* Sign In Button */}
       <div className='ant-form-item mb-4 flex'>
-        <Button type='primary' htmlType='submit' className='ant-btn mr-3 px-4 py-4 text-lg font-semibold'>
+        <Button type='primary' htmlType='submit' className='px-5'>
           Sign In
         </Button>
         <span className='mr-2 mt-2 block text-center'>or</span>

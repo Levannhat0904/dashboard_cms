@@ -1,4 +1,6 @@
 import { ACCESS_TOKEN } from '../constants'
+import { clsx, type ClassValue } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export const getAccessToken = () => {
   return localStorage.getItem('accessToken') || '' // Hoặc giá trị mặc định khác
@@ -10,6 +12,10 @@ export const setAccessToken = (token: string) => {
 // Hàm xóa accessToken khỏi localStorage
 export const removeAccessToken = () => {
   localStorage.removeItem(ACCESS_TOKEN)
+}
+
+export const cn = (...args: ClassValue[]) => {
+  return twMerge(clsx(args))
 }
 
 //==========
