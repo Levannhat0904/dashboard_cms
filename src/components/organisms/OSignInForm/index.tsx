@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // src/components/organisms/SignInForm.tsx
 import React, { useRef, useState } from 'react'
 import { Form, message } from 'antd'
@@ -33,6 +34,7 @@ const OSignInForm: React.FC = () => {
   }
   const [isChecked, setIsChecked] = useState(false) // Quản lý trạng thái
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (e: any) => {
     setIsChecked(e.target.checked) // Cập nhật trạng thái khi thay đổi
   }
@@ -44,17 +46,10 @@ const OSignInForm: React.FC = () => {
     }
   }
   return (
-    //  <LoginContent className='w-[60%]'>
-    //   {/* <LoginContent className='scr_575:w-full scr_575:pt-5 scr_575:pl-5 scr_575:pb-[10px] scr_575:pr-5 login-content w-[60%] pb-[20px] pl-[35px] pr-[35px] pt-[35px]'> */}
     <Form id='basic' className='ant-form rounded-lg bg-white' onFinish={onFinish} onFinishFailed={onFinishFailed}>
       <div className='mb-4'>
         <Form.Item name='email' rules={[{ required: true, message: 'Please input your email!' }]}>
-          <AInput
-            ref={inputRef}
-            placeholder='Email'
-            type='email'
-            // className='ant-input rounded-lg border border-gray-300 bg-[#f5f5f5] px-4 py-2'
-          />
+          <AInput ref={inputRef} placeholder='Email' type='email' />
         </Form.Item>
       </div>
       <div className='mb-4'>

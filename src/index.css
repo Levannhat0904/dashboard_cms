@@ -14,3 +14,7 @@
 a {
   text-decoration: none !important;
 }
+
+body {
+  padding: 0 0px;
+}

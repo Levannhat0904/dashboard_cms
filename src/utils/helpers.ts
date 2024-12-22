@@ -36,7 +36,7 @@ export const fetchPosts = async (): Promise<PostProps[]> => {
   return response.json()
 }
 // Tìm kiếm bài viết theo ID
-export const fetchPostById = async (id: number): Promise<PostProps> => {
+export const fetchPostByIdAPI = async (id: number): Promise<PostProps> => {
   const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
   if (!response.ok) {
     throw new Error('Network response was not ok')

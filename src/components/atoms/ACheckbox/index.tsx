@@ -12,7 +12,7 @@ interface CheckboxProps {
 const ACheckbox: React.FC<CheckboxProps> = ({ checked, onChange, className, children }) => {
   return (
     <AntCheckbox checked={checked} onChange={onChange} className={className}>
-      {children} {/* Hiển thị nội dung truyền vào từ children */}
+      {children}
     </AntCheckbox>
   )
 }
