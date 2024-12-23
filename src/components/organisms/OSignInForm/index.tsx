@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import { Form, message } from 'antd'
 import { useAuthContext } from '../../../contexts/AuthContext'
 import { AInput, ACheckbox, AButton } from '../../atoms'
-import { MSocialLogin } from '../../molecules'
+import { ASocialLogin } from '../../atoms'
 // import LoginContent from '../../atoms/LoginContent'
 
 const OSignInForm: React.FC = () => {
@@ -77,7 +77,7 @@ const OSignInForm: React.FC = () => {
       </div>
       <div className='flex-s mt-4 flex flex-wrap justify-between self-start'>
         <span>or connect with</span>
-        <MSocialLogin
+        <ASocialLogin
           onGoogleLogin={() => {}}
           onFacebookLogin={() => {}}
           onGithubLogin={() => {}}

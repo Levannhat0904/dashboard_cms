@@ -7,6 +7,7 @@ import Post from '../components/pages/post'
 import AddPost from '../components/pages/post/AddPost'
 import EditPost from '../components/pages/post/EditPost'
 import NotFound from '../components/pages/loginpage/NotFound'
+import User from '../components/pages/user'
 // import HomePage from '../pages/homepage'
 // import LoginForm from '../pages/loginpage/Login'
 // import RequireAuth from '../pages/loginpage/RequireAuth'
@@ -29,6 +30,11 @@ function AppRoutes() {
             <Route index element={<Post />} />
             <Route path='addPost' element={<AddPost />} />
             <Route path=':id/edit' element={<EditPost />} />
+          </Route>
+          <Route path='user'>
+            <Route index element={<User />} />
+            {/* <Route path='addPost' element={<AddPost />} />
+            <Route path=':id/edit' element={<EditPost />} /> */}
           </Route>
         </Route>
       </Route>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input, Button, message } from 'antd'
-import { MFormItem } from '../../molecules'
+import { AFormItem } from '../../atoms'
 
 const OAddPostForm: React.FC = () => {
   const onFinish = async (values: any) => {
@@ -15,12 +15,12 @@ const OAddPostForm: React.FC = () => {
 
   return (
     <Form onFinish={onFinish}>
-      <MFormItem label='Title' name='title' rules={[{ required: true, message: 'Please input your title!' }]}>
+      <AFormItem label='Title' name='title' rules={[{ required: true, message: 'Please input your title!' }]}>
         <Input />
-      </MFormItem>
-      <MFormItem label='Content' name='content' rules={[{ required: true, message: 'Please input content!' }]}>
+      </AFormItem>
+      <AFormItem label='Content' name='content' rules={[{ required: true, message: 'Please input content!' }]}>
         <Input.TextArea rows={6} />
-      </MFormItem>
+      </AFormItem>
       <Button type='primary' htmlType='submit'>
         Thêm bài viết
       </Button>

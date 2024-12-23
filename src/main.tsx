@@ -6,16 +6,19 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { AuthProvider } from './contexts/AuthContext.tsx'
 import { ConfigProvider } from 'antd'
 import { PostProvider } from './contexts/PostContext.tsx'
+import { UserProvider } from './contexts/UserContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router>
       <AuthProvider>
-        <PostProvider>
-          <ConfigProvider>
-            <AppRoutes />
-          </ConfigProvider>
-        </PostProvider>
+        <ConfigProvider>
+          <PostProvider>
+            <UserProvider>
+              <AppRoutes />
+            </UserProvider>
+          </PostProvider>
+        </ConfigProvider>
       </AuthProvider>
     </Router>
   </StrictMode>

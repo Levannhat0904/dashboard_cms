@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 // import { ALoginWrapper, ALoginContainer, ALoginMainContent, ALoginContent, LogoContentBg } from '../../components'
 import { useAuthContext } from '../../../contexts/AuthContext'
 import { OSignInForm } from '../../organisms'
-import { ALoginContainer, ALoginContent, ALoginMainContent, ALoginWrapper, LogoContentBg } from '../../atoms'
+import { ALoginContainer, ALoginContent, ALoginMainContent, ALoginWrapper, ALogoContentBg } from '../../atoms'
 const LoginForm: React.FC = () => {
   const navigate = useNavigate()
 
@@ -23,7 +23,7 @@ const LoginForm: React.FC = () => {
       <ALoginContainer>
         <ALoginMainContent>
           <ALoginContent className='w-[40%]'>
-            <LogoContentBg />
+            <ALogoContentBg />
           </ALoginContent>
           <ALoginContent className='w-[60%]'>
             <OSignInForm />

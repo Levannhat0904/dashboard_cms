@@ -22,7 +22,10 @@ const onSearch: SearchProps['onSearch'] = (value, _e, info) => console.log('valu
 
 const InputSearch: React.FC = () => {
   const [valueInput, setValueInput] = useState<string>('')
-  const { fetchPostById, setData, fetchPostsData } = usePostContext()
+  const { data, fetchPostById, setData, fetchPostsData, fetchPostsDataByContextAPI } = usePostContext()
+
+  // console.log(data)
+
   const handleSearch = async (value: string) => {
     if (value === '') {
       // Nếu ô tìm kiếm trống, gọi lại API để tải lại tất cả bài viết
@@ -30,21 +33,20 @@ const InputSearch: React.FC = () => {
       fetchPostsData()
       return
     }
-    if (isNaN(Number(value))) {
-      // Nếu ID không hợp lệ (không phải số), không làm gì thêm
-      console.log('ID không hợp lệ.')
-      return
+    console.log(data)
+
+    const result = await fetchPostsDataByContextAPI(value)
+    console.log(result)
+    if (result.length == 0) {
+      confirm('không tìm thấy dữ liệu')
+      fetchPostsData()
     }
-    const id = parseInt(value)
-    if (isNaN(id)) {
-      throw new Error('ID không hợp lệ')
-    }
-    const result = await fetchPostById(Number(id))
-    // console.log('result:', result)
     setData(result)
     // setData([result])
   }
-  const debouncedSearch = useCallback(debounce(handleSearch, 500), [])
+
+  const debouncedSearch = useCallback(debounce(handleSearch, 500), [data])
+
   return (
     <div className='flex justify-center !items-center w-full !content-center'>
       <Space direction='vertical' className='w-[80%]'>

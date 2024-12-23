@@ -4,8 +4,10 @@ import { Form, message } from 'antd'
 // import { AButton, AInput, HeaderForm, MFormItem } from '../../components'
 import { showMessage } from '../../../constants'
 import { createPost } from '../../../utils'
-import { AButton, AInput, HeaderForm } from '../../atoms'
-import { MFormItem } from '../../molecules'
+import { AButton, AInput, AHeaderForm } from '../../atoms'
+import { AFormItem } from '../../atoms'
+import { data, useNavigate } from 'react-router-dom'
+import { usePostContext } from '../../../contexts/PostContext'
 // import { showMessage } from '../../constants'
 
 const formItemLayout = {
@@ -38,15 +40,30 @@ const tailFormItemLayout = {
 const AddPost: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage()
   const [form] = Form.useForm()
+  const navigate = useNavigate()
+  const { data, addPostWithContextAPI } = usePostContext()
   const onFinish = async (values: FormValues) => {
     console.log('Received values of form: ', values)
     const title = values.title
     const content = values.content
     const userId = 1
     try {
-      const newPost = await createPost({ userId, title, body: content })
-      showMessage('success', 'Thêm bài viết thành công', messageApi)
+      // thêm bằng api
+      // const newPost = await createPost({ userId, title, body: content })
+      // thêm bằng context api
+      const newPost = {
+        id: data.length + 1, // Tạo ID ngẫu nhiên, bạn có thể thay đổi theo cách khác
+        avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed = 1`,
+        title,
+        href: `post/${data.length + 1}/edit`,
+        description: `Post ID: ${data.length + 1}`,
+        body: content
+      }
+      await addPostWithContextAPI(newPost)
+      await showMessage('success', 'Thêm bài viết thành công', messageApi)
       console.log('New Post Created:', newPost)
+
+      navigate('/dashboard/post')
     } catch (error) {
       showMessage('error', 'Thêm bài viết thất bại', messageApi)
       console.error('Error creating post:', error)
@@ -55,17 +72,17 @@ const AddPost: React.FC = () => {
   return (
     <Form {...formItemLayout} form={form} name='editPost' onFinish={onFinish} className='w-full' scrollToFirstError>
       {contextHolder}
-      <HeaderForm title='Thêm bài viết' />
-      <MFormItem
+      <AHeaderForm title='Thêm bài viết' />
+      <AFormItem
         name='title'
         label='Title'
         rules={[{ required: true, message: 'Please input your title!', whitespace: true }]}
       >
         <AInput placeholder='Enter title' />
-      </MFormItem>
-      <MFormItem name='content' label='Content' rules={[{ required: true, message: 'Please input content' }]}>
+      </AFormItem>
+      <AFormItem name='content' label='Content' rules={[{ required: true, message: 'Please input content' }]}>
         <AInput placeholder='Enter content' type='textarea' />
-      </MFormItem>
+      </AFormItem>
       <Form.Item {...tailFormItemLayout}>
         <AButton type='primary' htmlType='submit' text='Thêm bài viết' onClick={() => {}} />
       </Form.Item>

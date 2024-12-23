@@ -27,6 +27,32 @@ export interface PostProps {
   title: string
   body: string
 }
+interface Address {
+  street: string;
+  suite: string;
+  city: string;
+  zipcode: string;
+  geo: {
+    lat: string;
+    lng: string;
+  };
+}
+
+interface Company {
+  name: string;
+  catchPhrase: string;
+  bs: string;
+}
+interface UserProps {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  address: Address;
+  phone: string;
+  website: string;
+  company: Company;
+}
 // Tìm kiếm tất cả các bài viết
 export const fetchPosts = async (): Promise<PostProps[]> => {
   const response = await fetch('https://jsonplaceholder.typicode.com/posts')
@@ -79,4 +105,16 @@ export const deletePost = async (id: number): Promise<void> => {
   if (!response.ok) {
     throw new Error('Network response was not ok')
   }
+}
+
+
+// =======
+// Tìm kiếm tất cả các bài viết
+export const fetchUsers = async (): Promise<UserProps[]> => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/users')
+  if (!response.ok) {
+    throw new Error('Network response was not ok')
+  }
+  // console.log(response.json())
+  return response.json()
 }

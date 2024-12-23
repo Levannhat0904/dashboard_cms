@@ -4,8 +4,8 @@ import { Form, message } from 'antd'
 // import { AInput, AButton, MFormItem, HeaderForm } from '../../components'
 import { fetchPostByIdAPI, updatePost } from '../../../utils'
 import { showMessage } from '../../../constants'
-import { AButton, AInput, HeaderForm } from '../../atoms'
-import { MFormItem } from '../../molecules'
+import { AButton, AInput, AHeaderForm } from '../../atoms'
+import { AFormItem } from '../../atoms'
 import { usePostContext } from '../../../contexts/PostContext'
 // import { updatePost, fetchPostById } from '../../utils'
 // import { showMessage } from '../../constants'
@@ -80,17 +80,17 @@ const EditPost: React.FC = () => {
   return (
     <Form {...formItemLayout} form={form} name='editPost' onFinish={onFinish} className='w-full' scrollToFirstError>
       {contextHolder}
-      <HeaderForm title='Sửa bài viết' />
-      <MFormItem
+      <AHeaderForm title='Sửa bài viết' />
+      <AFormItem
         name='title'
         label='Title'
         rules={[{ required: true, message: 'Please input your title!', whitespace: true }]}
       >
         <AInput placeholder='Enter title' />
-      </MFormItem>
-      <MFormItem name='content' label='Content' rules={[{ required: true, message: 'Please input content' }]}>
+      </AFormItem>
+      <AFormItem name='content' label='Content' rules={[{ required: true, message: 'Please input content' }]}>
         <AInput placeholder='Enter content' type='textarea' />
-      </MFormItem>
+      </AFormItem>
       <Form.Item {...tailFormItemLayout}>
         <AButton type='primary' htmlType='submit' text='Cập nhật' onClick={() => {}} />
       </Form.Item>

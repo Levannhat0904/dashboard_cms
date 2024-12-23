@@ -26,24 +26,24 @@ export default {
   plugins: [
     // require('@tailwindcss/forms'),
     function ({ addBase }) {
-      addBase({
-        '.custom-menu .ant-menu-item-selected': {
-          backgroundColor: 'transparent !important'
-        },
-        '.custom-menu .ant-menu-submenu-selected': {
-          backgroundColor: 'transparent !important'
-        },
-        '.custom-class:hover': {
-          color: 'red !important'
-        },
-        '.custom-class:active': {
-          color: 'red !important' /* or any other color you want */
-        },
-        '.custom-class:focus': {
-          color: 'red !important' /* or any other color for focus */,
-          outline: 'none' /* Optional: Removes the default outline */
-        }
-      })
+      // addBase({
+      //   '.custom-menu .ant-menu-item-selected': {
+      //     backgroundColor: 'transparent !important'
+      //   },
+      //   '.custom-menu .ant-menu-submenu-selected': {
+      //     backgroundColor: 'transparent !important'
+      //   },
+      //   '.custom-class:hover': {
+      //     color: 'red !important'
+      //   },
+      //   '.custom-class:active': {
+      //     color: 'red !important' /* or any other color you want */
+      //   },
+      //   '.custom-class:focus': {
+      //     color: 'red !important' /* or any other color for focus */,
+      //     outline: 'none' /* Optional: Removes the default outline */
+      //   }
+      // })
     }
   ]
 }

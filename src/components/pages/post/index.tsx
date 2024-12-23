@@ -12,6 +12,7 @@ import FloatAddButton from '../../atoms/AFloatAddButton'
 import PostOptionsModal from '../../organisms/0PostOptionsModal'
 import PostList from '../../Templates/TPostList'
 import { usePostContext } from '../../../contexts/PostContext'
+import { AInputSearch } from '../../atoms'
 interface FormattedPostProps {
   id: number
   avatar: string
@@ -21,6 +22,7 @@ interface FormattedPostProps {
   content: string
 }
 const Post: React.FC = () => {
+  console.log(location.pathname)
   // const [data, setData] = useState<FormattedPostProps[]>([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedItemId, setSelectedItemId] = useState<number | null>(null)
@@ -42,6 +44,7 @@ const Post: React.FC = () => {
   //   }
   //   fetchData()
   // }, [])
+  console.log(data)
 
   const handleAddPostClick = () => navigate('addPost')
   const handleItemClick = (id: number) => {
@@ -55,6 +58,7 @@ const Post: React.FC = () => {
   return (
     <div className='mb-20 w-full h-full overflow-x-hidden'>
       {contextHolder}
+      {/* <AInputSearch /> */}
       <FloatAddButton onClick={handleAddPostClick} />
       <PostOptionsModal
         isOpen={isModalOpen}
