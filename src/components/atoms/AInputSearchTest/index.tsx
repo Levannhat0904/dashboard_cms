@@ -27,10 +27,9 @@ const InputSearchTest: React.FC<SearchProps> = ({ handleSearch }) => {
     }, 500),
     [handleSearch]
   )
-
   return (
-    <div className='flex justify-center !items-center w-full !content-center'>
-      <Space direction='vertical' className='w-[80%]'>
+    <div className='flex justify-end !items-center w-full !content-center'>
+      <Space direction='vertical' className='w-[40%]'>
         <Search
           placeholder='Input search text'
           className='h-full flex'
