@@ -21,6 +21,7 @@ const index: React.FC<SidebarProps> = ({ collapsed, toggleCollapse }) => {
       {/* Sidebar Toggle và menu tùy chỉnh */}
       <SidebarToggle collapsed={collapsed} onToggle={toggleCollapse} />
       <MCustomMenu />
+      <SidebarToggle collapsed={collapsed} onToggle={toggleCollapse} />
     </Sider>
   )
 }
