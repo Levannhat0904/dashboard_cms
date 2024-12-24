@@ -5,35 +5,49 @@ import { Form, message } from 'antd'
 import { useAuthContext } from '../../../contexts/AuthContext'
 import { AInput, ACheckbox, AButton } from '../../atoms'
 import { ASocialLogin } from '../../atoms'
+import { useMutation } from '@tanstack/react-query'
+import { LoginRequest, loginWithAxios } from '../../../utils/AxiosApiServiceLogin'
+import { Button, notification } from 'antd'
 // import LoginContent from '../../atoms/LoginContent'
-
+type NotificationType = 'success' | 'info' | 'warning' | 'error'
 const OSignInForm: React.FC = () => {
-  // const { login } = useAuthContext()
-  const { login, isLoggedIn } = useAuthContext()
+  const [api, contextHolder] = notification.useNotification()
   const [loading, setLoading] = useState(false)
   const [checked, setChecked] = useState(true)
-
+  const openNotificationWithIcon = (type: NotificationType, message: string, description: string) => {
+    api[type]({
+      message: message,
+      description: description
+    })
+  }
   const onFinish = (values: { email: string; password: string }) => {
     setLoading(true)
-    message.loading({ content: 'Đang xử lý...', key: 'login', duration: 0 })
-
-    setTimeout(() => {
-      if (values.email === 'demo@example.com' && values.password === 'demo#123') {
-        message.success({ content: 'Đăng nhập thành công!', key: 'login', duration: 2 })
-        login('fake-demo-token')
-        window.location.href = '/dashboard'
-      } else {
-        message.error({ content: 'Thông tin đăng nhập không hợp lệ!', key: 'login', duration: 2 })
-      }
-      setLoading(false)
-    }, 2000)
+    // message.loading({ content: 'Đang xử lý...', key: 'login', duration: 0 })
+    mutation.mutate(values)
   }
-
+  const mutation = useMutation({
+    mutationFn: (data: LoginRequest) => loginWithAxios(data), // Hàm thực hiện mutation
+    onSuccess: (data) => {
+      if (data?.data?.accessToken) {
+        localStorage.setItem('accessToken', data.data.accessToken) // Lưu token vào localStorage
+      }
+      console.log('Đăng nhập thành công:', data.data.accessToken)
+      openNotificationWithIcon('success', 'Đăng nhập thành công', 'Đăng nhập thành công')
+      window.location.href = '/dashboard' // Chuyển hướng sau khi đăng nhập thành công
+    },
+    onError: (error: any) => {
+      setLoading(false)
+      // In lỗi và hiển thị thông báo lỗi
+      console.log('Login error: ', error)
+      openNotificationWithIcon('error', 'Đăng nhập thất bại', error.meta?.internalMessage || 'Có lỗi xảy ra!')
+      console.error('Login failed:', error) // In lỗi ra console để debug
+    }
+  })
   const onFinishFailed = () => {
+    setLoading(false)
     message.error('Vui lòng điền đầy đủ thông tin hợp lệ!')
   }
   const [isChecked, setIsChecked] = useState(false) // Quản lý trạng thái
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (e: any) => {
     setIsChecked(e.target.checked) // Cập nhật trạng thái khi thay đổi
@@ -41,12 +55,14 @@ const OSignInForm: React.FC = () => {
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null)
 
   const handleFocus = () => {
+    setLoading(true)
     if (inputRef.current) {
       inputRef.current.focus()
     }
   }
   return (
     <Form id='basic' className='ant-form rounded-lg bg-white' onFinish={onFinish} onFinishFailed={onFinishFailed}>
+      {contextHolder}
       <div className='mb-4'>
         <Form.Item name='email' rules={[{ required: true, message: 'Please input your email!' }]}>
           <AInput ref={inputRef} placeholder='Email' type='email' />
@@ -69,7 +85,7 @@ const OSignInForm: React.FC = () => {
         </a>
       </div>
       <div className='ant-form-item mb-4 flex'>
-        <AButton type='primary' htmlType='submit' onClick={handleFocus} text='Sign In' />
+        <AButton loading={loading} type='primary' htmlType='submit' onClick={handleFocus} text='Sign In' />
         <span className='mr-2 mt-2 block text-center'>or</span>
         <a href='/signup' className='mt-2 block text-center text-blue-500 hover:text-blue-700'>
           Sign Up

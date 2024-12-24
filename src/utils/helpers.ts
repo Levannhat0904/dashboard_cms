@@ -28,30 +28,30 @@ export interface PostProps {
   body: string
 }
 interface Address {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
+  street: string
+  suite: string
+  city: string
+  zipcode: string
   geo: {
-    lat: string;
-    lng: string;
-  };
+    lat: string
+    lng: string
+  }
 }
 
 interface Company {
-  name: string;
-  catchPhrase: string;
-  bs: string;
+  name: string
+  catchPhrase: string
+  bs: string
 }
 interface UserProps {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: Address;
-  phone: string;
-  website: string;
-  company: Company;
+  id: number
+  name: string
+  username: string
+  email: string
+  address: Address
+  phone: string
+  website: string
+  company: Company
 }
 // Tìm kiếm tất cả các bài viết
 export const fetchPosts = async (): Promise<PostProps[]> => {
@@ -106,7 +106,6 @@ export const deletePost = async (id: number): Promise<void> => {
     throw new Error('Network response was not ok')
   }
 }
-
 
 // =======
 // Tìm kiếm tất cả các bài viết

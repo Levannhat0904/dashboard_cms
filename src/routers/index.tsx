@@ -8,6 +8,7 @@ import AddPost from '../components/pages/post/AddPost'
 import EditPost from '../components/pages/post/EditPost'
 import NotFound from '../components/pages/loginpage/NotFound'
 import User from '../components/pages/user'
+import TestLogin from '../components/pages/loginpage/TestLogin'
 // import HomePage from '../pages/homepage'
 // import LoginForm from '../pages/loginpage/Login'
 // import RequireAuth from '../pages/loginpage/RequireAuth'
@@ -23,6 +24,7 @@ function AppRoutes() {
       {/* Route công khai */}
       <Route path='/' element={<HomePage />} />
       <Route path='/login' element={<LoginForm />} />
+      <Route path='/loginTest' element={<TestLogin />} />
       {/* Route bảo vệ */}
       <Route element={<RequireAuth />}>
         <Route path='/dashboard' element={<DashboardLayout />}>

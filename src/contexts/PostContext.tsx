@@ -141,8 +141,8 @@ export const PostProvider: React.FC<{ children: React.ReactNode }> = ({ children
         fetchPostsData,
         fetchPostById,
         addPostWithContextAPI,
-        fetchPostsDataByContextAPI,
-        deletePostWithContextAPI
+        fetchPostsDataByContextAPI
+        // deletePostWithContextAPI
       }}
     >
       {children}
