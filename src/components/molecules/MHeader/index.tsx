@@ -19,7 +19,7 @@ const MyHeader: React.FC<HeaderProps> = ({ collapsed, toggleDrawer }) => {
     window.location.reload()
   }
   return (
-    <Header className='bg-white flex justify-center items-center w-full pl-0 pr-0'>
+    <Header className='bg-white sticky top-0 z-30 flex justify-center items-center w-full pl-0 pr-0'>
       <div className='flex justify-center items-center h-full'>
         <Button
           type='primary'

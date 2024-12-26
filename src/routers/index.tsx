@@ -8,15 +8,10 @@ import AddPost from '../components/pages/post/AddPost'
 import EditPost from '../components/pages/post/EditPost'
 import NotFound from '../components/pages/loginpage/NotFound'
 import User from '../components/pages/user'
+import TestPost from '../components/pages/post/TestPost'
+import Test_A from '../Test_A'
 import TestLogin from '../components/pages/loginpage/TestLogin'
-// import HomePage from '../pages/homepage'
-// import LoginForm from '../pages/loginpage/Login'
-// import RequireAuth from '../pages/loginpage/RequireAuth'
-// import NotFound from '../pages/loginpage/NotFound'
-// import Dashboard from '../pages/Dashboard'
-// import Post from '../pages/post'
-// import AddPost from '../pages/post/AddPost'
-// import EditPost from '../pages/post/EditPost'
+import TestPostL1 from '../components/pages/post/TestPostL1'
 
 function AppRoutes() {
   return (
@@ -24,12 +19,14 @@ function AppRoutes() {
       {/* Route công khai */}
       <Route path='/' element={<HomePage />} />
       <Route path='/login' element={<LoginForm />} />
-      <Route path='/loginTest' element={<TestLogin />} />
+      <Route path='/test' element={<Test_A />} />
       {/* Route bảo vệ */}
       <Route element={<RequireAuth />}>
         <Route path='/dashboard' element={<DashboardLayout />}>
           <Route path='post'>
             <Route index element={<Post />} />
+            <Route path='TestPost' element={<TestPost />} />
+            <Route path='TestPostL1' element={<TestPostL1 />} />
             <Route path='addPost' element={<AddPost />} />
             <Route path=':id/edit' element={<EditPost />} />
           </Route>

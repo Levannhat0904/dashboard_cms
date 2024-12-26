@@ -1,83 +1,13 @@
-// import { AxiosRequestConfig } from "axios";
-// import axios, { AxiosResponse } from "axios";
-// import { BASE_URL_USER_LOGIN } from "../constants";
-
-// const client = axios.create({
-//   baseURL: BASE_URL_USER_LOGIN, // Thay đổi với URL thực tế của bạn
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-// });
-
-// export interface LoginRequest {
-//   email: string;
-//   password: string;
-// }
-
-// export interface Meta {
-//   status: number;
-//   success: boolean;
-//   externalMessage: string;
-//   internalMessage: string;
-// }
-
-// export interface LoginResponse {
-//   meta: Meta;
-//   data: {
-//     accessToken: string;
-//   };
-// }
-
-// export interface ErrorResponse {
-//   meta: Meta;
-// }
-
-// // Định nghĩa kiểu lỗi cho các response lỗi
-// export interface AxiosErrorResponse {
-//   response: {
-//     data: {
-//       meta: Meta;
-//     };
-//   };
-// }
-
-// // Hàm request login
-// const requestUserLogin = async <T>(options: AxiosRequestConfig): Promise<T> => {
-//   const onSuccess = (response: AxiosResponse<T>) => response.data;
-//   const onError = (error: AxiosErrorResponse) => {
-//     // Lấy thông điệp lỗi từ response
-//     const errorMessage = error.response?.data?.meta?.externalMessage || "Đã xảy ra lỗi";
-
-//     // Trả về lỗi chi tiết
-//     return Promise.reject(new Error(errorMessage));
-//   };
-
-//   return client(options).then(onSuccess).catch(onError);
-// };
-
-// // Hàm đăng nhập
-// export const login = async (data: LoginRequest): Promise<LoginResponse> => {
-//   try {
-//     const response = await requestUserLogin<LoginResponse>({
-//       url: "/api/v1/cms/auths/login",
-//       method: "POST",
-//       data, // Gửi dữ liệu đăng nhập
-//     });
-//     console.log("response: ", response)
-//     return response;
-//   } catch (error: Error) {
-//     console.error("Đăng nhập thất bại:", error.message || error);
-//     throw error; // Ném lỗi ra để React Query xử lý
-//   }
-// };
 import { AxiosRequestConfig } from "axios";
 import axios, { AxiosResponse } from "axios";
 import { BASE_URL_USER_LOGIN } from "../constants";
+import { getAccessToken } from './helpers';
 
+const accessToken = getAccessToken()// Thay bằng accessToken hợp lệ
 const client = axios.create({
-  baseURL: BASE_URL_USER_LOGIN, // Thay đổi với URL thực tế của bạn
+  baseURL: BASE_URL_USER_LOGIN, // Thay bằng base URL API của bạn
   headers: {
-    'Content-Type': 'application/json',
+    Authorization: `Bearer ${accessToken}`,
   },
 });
 
@@ -98,21 +28,21 @@ export interface LoginResponse {
     accessToken: string;
   };
 }
-interface IAuthor {
+export interface IAuthor {
   name?: string;
   username?: string;
   avatar?: string;
   id?: string;
 }
 
-interface ITag {
+export interface ITag {
   name?: string;
   slug?: string;
   id?: string;
   iconUrl?: string;
 }
 
-interface ISector {
+export interface ISector {
   name?: string;
   slug?: string;
   id?: string;
@@ -120,7 +50,7 @@ interface ISector {
   iconUrl?: string;
 }
 
-interface IAsset {
+export interface IAsset {
   slug?: string;
   name?: string;
   symbol?: string;
@@ -128,14 +58,14 @@ interface IAsset {
   id?: string;
 }
 
-interface IPostType {
+export interface IPostType {
   name?: string;
   slug?: string;
   id?: string;
   iconUrl?: string
 }
 
-interface IPost {
+export interface IPost {
   id?: string;
   uuid?: string;
   slug?: string;
@@ -157,8 +87,32 @@ interface IPost {
   createdAt?: string;
   updatedAt?: string;
 }
+export interface ErrorResponse {
+  meta: Meta;
+}
 
-interface IApiPostResponse {
+// Định nghĩa kiểu lỗi cho các response lỗi
+export interface AxiosErrorResponse {
+  response: {
+    data: ErrorResponse; // Thay đổi để chứa lỗi trả về từ API
+  };
+}
+
+export interface IApiPostResponse {
+  meta: {
+    status: number;
+    success?: boolean;
+    externalMessage: string;
+    internalMessage: string;
+  }
+  data: {
+    page: number;
+    pageSize: number;
+    total: number;
+    datas: IPost[];
+  };
+}
+export interface IApiUserResponse {
   meta: {
     status: number;
     success?: boolean;
@@ -173,16 +127,6 @@ interface IApiPostResponse {
   };
 }
 
-export interface ErrorResponse {
-  meta: Meta;
-}
-
-// Định nghĩa kiểu lỗi cho các response lỗi
-export interface AxiosErrorResponse {
-  response: {
-    data: ErrorResponse; // Thay đổi để chứa lỗi trả về từ API
-  };
-}
 
 
 // Hàm request login
@@ -214,7 +158,7 @@ export const loginWithAxios = async (data: LoginRequest): Promise<LoginResponse>
 };
 // Hàm lấy thông tin bài viết
 // Hàm lấy thông tin các bài viết
-export const getPostInfo = async (page: number, pageSize: number, accessToken: string): Promise<IPost[]> => {
+export const getPostInfo = async (page: number, pageSize: number, accessToken: string): Promise<IApiPostResponse> => {
   try {
     const response = await requestUserLogin<IApiPostResponse>({
       url: `/api/v1/cms/posts?page=${page}&pageSize=${pageSize}`,
@@ -223,10 +167,77 @@ export const getPostInfo = async (page: number, pageSize: number, accessToken: s
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.info("Thông tin bài viết:", response.data.datas);
-    return response.data.datas;
+    // console.info("Thông tin bài viết:", response.data.datas);
+    // console.log(response.data)
+    return response;
   } catch (error: any) {
     console.error("Không thể lấy thông tin bài viết:", error);
     throw new Error("Không thể lấy thông tin bài viết. Vui lòng thử lại sau.");
+  }
+};
+export const getUserInfo = async (): Promise<T> => {
+  try {
+    const response = await requestUserLogin<T>({
+      url: `api/v1/cms/posts/filter/authors`,
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    // console.info("Thông tin bài viết:", response.data.datas);
+    // console.log(response.data)
+    return response;
+  } catch (error: any) {
+    console.error("Không thể lấy thông tin bài viết:", error);
+    throw new Error("Không thể lấy thông tin bài viết. Vui lòng thử lại sau.");
+  }
+};
+
+
+// Hàm lấy dữ liệu từ API
+export const getPostsByAuthor = async (page: number, pageSize: number, authors: string[]) => {
+  try {
+    // Tạo cấu hình yêu cầu
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // Gửi token hợp lệ trong header
+      },
+      params: {
+        page,
+        pageSize,
+        authors: authors // Ghép các id tác giả vào tham số URL
+      }
+    };
+
+    // Gửi yêu cầu GET tới API
+    const response = await client.get('/api/v1/cms/posts', config);
+
+    // Trả về dữ liệu nếu thành công
+    return response.data;
+  } catch (error) {
+    console.error('Không thể lấy bài viết:', error);
+    throw new Error('Không thể lấy bài viết. Vui lòng thử lại sau.');
+  }
+};
+
+
+export const fetchPostsWithAuthors = async (page?: number, pageSize?: number, authors?: string[]) => {
+  try {
+    // Lấy thông tin tác giả
+    const authorsResponse = await client.get('api/v1/cms/posts/filter/authors');
+
+    // Lấy danh sách bài viết
+    const postsResponse = await client.get('api/v1/cms/posts', {
+      params: { page, pageSize, authors },
+    });
+
+    // Trả về dữ liệu gộp
+    return {
+      authors: authorsResponse.data,
+      posts: postsResponse.data,
+    };
+  } catch (error: any) {
+    console.error('Lỗi khi lấy dữ liệu:', error);
+    throw new Error('Không thể lấy dữ liệu. Vui lòng thử lại sau.');
   }
 };

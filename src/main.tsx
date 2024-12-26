@@ -8,6 +8,8 @@ import { ConfigProvider } from 'antd'
 import { PostProvider } from './contexts/PostContext.tsx'
 import { UserProvider } from './contexts/UserContext.tsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { SelectedAuthorsProvider } from './contexts/SelectedAuthorsContext.tsx'
+import { AuthorsProvider } from './contexts/AuthorsContext.tsx'
 const queryClient = new QueryClient()
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -17,7 +19,11 @@ createRoot(document.getElementById('root')!).render(
           <ConfigProvider>
             <PostProvider>
               <UserProvider>
-                <AppRoutes />
+                <SelectedAuthorsProvider>
+                  <AuthorsProvider>
+                    <AppRoutes />
+                  </AuthorsProvider>
+                </SelectedAuthorsProvider>
               </UserProvider>
             </PostProvider>
           </ConfigProvider>

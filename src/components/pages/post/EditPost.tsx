@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { Form, message } from 'antd'
 // import { AInput, AButton, MFormItem, HeaderForm } from '../../components'
-import { fetchPostByIdAPI, updatePost } from '../../../utils'
+import { updatePost } from '../../../utils'
 import { showMessage } from '../../../constants'
 import { AButton, AInput, AHeaderForm } from '../../atoms'
 import { AFormItem } from '../../atoms'
@@ -45,7 +45,7 @@ const EditPost: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const [form] = Form.useForm()
   const [messageApi, contextHolder] = message.useMessage()
-  const { data, loading, fetchPostById } = usePostContext()
+  const { fetchPostById } = usePostContext()
   useEffect(() => {
     if (id) {
       const fetchPost = async () => {
