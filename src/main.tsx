@@ -17,15 +17,15 @@ createRoot(document.getElementById('root')!).render(
       <Router>
         <AuthProvider>
           <ConfigProvider>
-            <PostProvider>
-              <UserProvider>
-                <SelectedAuthorsProvider>
-                  <AuthorsProvider>
-                    <AppRoutes />
-                  </AuthorsProvider>
-                </SelectedAuthorsProvider>
-              </UserProvider>
-            </PostProvider>
+            {/* <PostProvider> */}
+            <UserProvider>
+              <SelectedAuthorsProvider>
+                <AuthorsProvider>
+                  <AppRoutes />
+                </AuthorsProvider>
+              </SelectedAuthorsProvider>
+            </UserProvider>
+            {/* </PostProvider> */}
           </ConfigProvider>
         </AuthProvider>
       </Router>

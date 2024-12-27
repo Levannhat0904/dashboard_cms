@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { getPostsByAuthor, getUserInfo } from '../utils/AxiosApiServiceLogin'
+import { getUserInfo } from '../utils/AxiosApiServiceLogin'
 
 // Định nghĩa type cho context
 interface AuthorsContextType {

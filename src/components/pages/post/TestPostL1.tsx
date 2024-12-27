@@ -1,14 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { Avatar, List, message, Select } from 'antd'
+import { Avatar, List, Select } from 'antd'
 import { EditOutlined, UserOutlined } from '@ant-design/icons'
-import {
-  getPostInfo,
-  getPostsByAuthor,
-  getUserInfo,
-  IApiPostResponse,
-  IPost
-} from '../../../utils/AxiosApiServiceLogin'
-import { getAccessToken } from '../../../utils'
 import UserAvatarTooltip from './UserAvatar'
 import Tags from './Tags'
 import AssetAvatarTooltip from './Assets'
@@ -17,29 +9,19 @@ import Types from './Type'
 import { useSearchParams } from 'react-router-dom'
 import { useSelectedAuthors } from '../../../contexts/SelectedAuthorsContext'
 import { useAuthors } from '../../../contexts/AuthorsContext'
-import { usePostsWithAuthors } from '../../../hook/CustomHook'
+import { usePosts } from '../../../hook/CustomHook'
 const TestPostL1: React.FC = () => {
-  const [posts, setPosts] = useState<IPost[]>([])
   const [postsTest, setPostsTest] = useState([])
-  // const [authors, setAuthors] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
   const [searchParams, setSearchParams] = useSearchParams()
   const { authors, setAuthors } = useAuthors()
-  // const [selectedAuthors, setSelectedAuthors] = useState<string[]>([])
   const { selectedAuthors, setSelectedAuthors } = useSelectedAuthors()
-
-  const accessToken = getAccessToken()
 
   const [meta, setMeta] = useState({
     page: parseInt(searchParams.get('page') || '1', 10),
     pageSize: parseInt(searchParams.get('pageSize') || '10', 10),
     total: 0
   })
-  // Gọi API để lấy danh sách tác giả
-  // useEffect(() => {
-  //   fetchAuthors()
-  // }, [])
-
   // Sử dụng useMemo để tối ưu tham số URL (chỉ tính lại khi các tham số thay đổi)
   const memoizedParams = useMemo(
     () => ({
@@ -49,75 +31,43 @@ const TestPostL1: React.FC = () => {
     }),
     [meta.page, meta.pageSize, selectedAuthors]
   )
-  const { data, isLoading, error } = usePostsWithAuthors(meta.page, meta.pageSize, selectedAuthors)
-  console.log('>>>>>>>>>>>>>>', data?.posts.data.datas) //lấy ra dc post
+  const { data, isLoading, error } = usePosts(meta.page, meta.pageSize, selectedAuthors)
+
+  console.log('>>>>>>>>>>>>>>', data?.posts?.data?.datas) //lấy ra dc post
+
   useEffect(() => {
-    if (data?.posts?.data?.datas) {
-      console.log('>>>>>>>>>>>>>>', data.posts.data.datas)
-      setPostsTest(data.posts.data.datas) // Gán dữ liệu cho state khi có dữ liệu hợp lệ
+    console.log('Dữ liệu trả về:', data)
+
+    if (data?.posts?.data?.datas.length && Array.isArray(data.posts.data.datas)) {
+      console.log('Dữ liệu hợp lệ:', data.posts)
+      setPostsTest(data.posts.data.datas) // Gán dữ liệu hợp lệ
+      setMeta({
+        page: data.posts.data.page,
+        pageSize: data.posts.data.pageSize,
+        total: data.posts.data.total
+      })
     } else {
-      console.error('Dữ liệu không hợp lệ hoặc không có')
+      setPostsTest([])
+      setMeta({
+        page: data?.posts.data.page,
+        pageSize: data?.posts.data.pageSize,
+        total: data?.posts.data.total
+      })
     }
-  }, [data, setPostsTest])
+  }, [data, data?.posts?.data?.datas.length])
+
   // Lấy giá trị từ URL khi trang tải lại
   useEffect(() => {
+    setLoading(false)
     const authorsFromUrl = searchParams.getAll('authors')
     console.log(authorsFromUrl)
     if (authorsFromUrl.length > 0) {
       setSelectedAuthors(authorsFromUrl) // Khôi phục trạng thái từ URL
     }
   }, [searchParams])
-  console.log(posts)
 
   console.log('searchParams', selectedAuthors)
-
-  useEffect(() => {
-    fetchPosts(memoizedParams.page, memoizedParams.pageSize, selectedAuthors)
-  }, [memoizedParams])
-
-  // Khi `selectedAuthors` hoặc `memoizedParams` thay đổi, gọi API
-
-  useEffect(() => {
-    if (selectedAuthors.length > 0 || memoizedParams.authors === '') {
-      fetchPosts(memoizedParams.page, memoizedParams.pageSize, selectedAuthors)
-    }
-  }, [memoizedParams, selectedAuthors])
-
-  // Hàm gọi API lấy bài viết
-  const fetchPosts = async (page: number, pageSize: number, selectedAuthors: string[] = []) => {
-    setLoading(true)
-    try {
-      console.log('length: ', selectedAuthors)
-      const response: IApiPostResponse = await (selectedAuthors.length
-        ? getPostsByAuthor(page, pageSize, selectedAuthors) // Lọc theo tác giả
-        : getPostInfo(page, pageSize, accessToken))
-      console.log('check', response.data.datas)
-      setPosts(response.data.datas)
-      setMeta({
-        page: response.data.page,
-        pageSize: response.data.pageSize,
-        total: response.data.total
-      })
-    } catch (error) {
-      message.error('Không thể tải bài viết, vui lòng thử lại sau.')
-      console.error('Không thể lấy thông tin bài viết:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  // Hàm gọi API lấy danh sách tác giả
-  // const fetchAuthors = async () => {
-  //   try {
-  //     const response = await getUserInfo()
-  //     setAuthors(response.data)
-  //   } catch (error) {
-  //     console.error('Lỗi khi lấy dữ liệu tác giả:', error)
-  //   }
-  // }
-
   console.log(selectedAuthors)
-
   // Hàm xử lý thay đổi phân trang
   // const handleOnChange = async (page: number, pageSize: number) => {
   //   if (meta.page === page && meta.pageSize === pageSize) return
@@ -246,7 +196,7 @@ const TestPostL1: React.FC = () => {
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
           onChange: (page: number, pageSize: number) => handleOnChange(page, pageSize)
         }}
-        dataSource={postsTest}
+        dataSource={postsTest || []}
         renderItem={(item) => (
           <List.Item key={item.title}>
             <List.Item.Meta className='pl-0' />
@@ -257,18 +207,6 @@ const TestPostL1: React.FC = () => {
                   <b>title:</b>
                   {item.title}
                 </span>
-                {/* <span className='block'>
-                  <b>id:</b>
-                  {item.id}
-                </span>
-                <span className='block'>
-                  <b>uuid:</b>
-                  {item.uuid}
-                </span>
-                <span className='block'>
-                  <b>slug:</b>
-                  {item.slug}
-                </span> */}
                 <span className='block'>
                   <b>excerpt:</b>
                   {item.excerpt}

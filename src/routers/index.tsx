@@ -8,7 +8,7 @@ import AddPost from '../components/pages/post/AddPost'
 import EditPost from '../components/pages/post/EditPost'
 import NotFound from '../components/pages/loginpage/NotFound'
 import User from '../components/pages/user'
-import TestPost from '../components/pages/post/TestPost'
+// import TestPost from '../components/pages/post/TestPost'
 import Test_A from '../Test_A'
 import TestLogin from '../components/pages/loginpage/TestLogin'
 import TestPostL1 from '../components/pages/post/TestPostL1'
@@ -24,8 +24,8 @@ function AppRoutes() {
       <Route element={<RequireAuth />}>
         <Route path='/dashboard' element={<DashboardLayout />}>
           <Route path='post'>
-            <Route index element={<Post />} />
-            <Route path='TestPost' element={<TestPost />} />
+            {/* <Route index element={<Post />} /> */}
+            {/* <Route path='TestPost' element={<TestPost />} /> */}
             <Route path='TestPostL1' element={<TestPostL1 />} />
             <Route path='addPost' element={<AddPost />} />
             <Route path=':id/edit' element={<EditPost />} />

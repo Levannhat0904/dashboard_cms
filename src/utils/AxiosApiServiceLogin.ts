@@ -158,23 +158,23 @@ export const loginWithAxios = async (data: LoginRequest): Promise<LoginResponse>
 };
 // Hàm lấy thông tin bài viết
 // Hàm lấy thông tin các bài viết
-export const getPostInfo = async (page: number, pageSize: number, accessToken: string): Promise<IApiPostResponse> => {
-  try {
-    const response = await requestUserLogin<IApiPostResponse>({
-      url: `/api/v1/cms/posts?page=${page}&pageSize=${pageSize}`,
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    // console.info("Thông tin bài viết:", response.data.datas);
-    // console.log(response.data)
-    return response;
-  } catch (error: any) {
-    console.error("Không thể lấy thông tin bài viết:", error);
-    throw new Error("Không thể lấy thông tin bài viết. Vui lòng thử lại sau.");
-  }
-};
+// export const getPostInfo = async (page: number, pageSize: number, accessToken: string): Promise<IApiPostResponse> => {
+//   try {
+//     const response = await requestUserLogin<IApiPostResponse>({
+//       url: `/api/v1/cms/posts?page=${page}&pageSize=${pageSize}`,
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//       },
+//     });
+//     // console.info("Thông tin bài viết:", response.data.datas);
+//     // console.log(response.data)
+//     return response;
+//   } catch (error: any) {
+//     console.error("Không thể lấy thông tin bài viết:", error);
+//     throw new Error("Không thể lấy thông tin bài viết. Vui lòng thử lại sau.");
+//   }
+// };
 export const getUserInfo = async (): Promise<T> => {
   try {
     const response = await requestUserLogin<T>({
@@ -194,34 +194,7 @@ export const getUserInfo = async (): Promise<T> => {
 };
 
 
-// Hàm lấy dữ liệu từ API
-export const getPostsByAuthor = async (page: number, pageSize: number, authors: string[]) => {
-  try {
-    // Tạo cấu hình yêu cầu
-    const config: AxiosRequestConfig = {
-      headers: {
-        Authorization: `Bearer ${accessToken}`, // Gửi token hợp lệ trong header
-      },
-      params: {
-        page,
-        pageSize,
-        authors: authors // Ghép các id tác giả vào tham số URL
-      }
-    };
-
-    // Gửi yêu cầu GET tới API
-    const response = await client.get('/api/v1/cms/posts', config);
-
-    // Trả về dữ liệu nếu thành công
-    return response.data;
-  } catch (error) {
-    console.error('Không thể lấy bài viết:', error);
-    throw new Error('Không thể lấy bài viết. Vui lòng thử lại sau.');
-  }
-};
-
-
-export const fetchPostsWithAuthors = async (page?: number, pageSize?: number, authors?: string[]) => {
+export const fetchPosts = async (page?: number, pageSize?: number, authors?: string[]) => {
   try {
     // Lấy thông tin tác giả
     const authorsResponse = await client.get('api/v1/cms/posts/filter/authors');
@@ -235,6 +208,19 @@ export const fetchPostsWithAuthors = async (page?: number, pageSize?: number, au
     return {
       authors: authorsResponse.data,
       posts: postsResponse.data,
+    };
+  } catch (error: any) {
+    console.error('Lỗi khi lấy dữ liệu:', error);
+    throw new Error('Không thể lấy dữ liệu. Vui lòng thử lại sau.');
+  }
+};
+export const fetchAuthors = async () => {
+  try {
+    // Lấy thông tin tác giả
+    const authorsResponse = await client.get('api/v1/cms/posts/filter/authors');
+    // Trả về dữ liệu gộp
+    return {
+      authors: authorsResponse.data,
     };
   } catch (error: any) {
     console.error('Lỗi khi lấy dữ liệu:', error);
