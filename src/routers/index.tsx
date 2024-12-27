@@ -3,11 +3,7 @@ import { HomePage } from '../components/pages'
 import LoginForm from '../components/pages/loginpage/Login'
 import RequireAuth from '../components/pages/loginpage/RequireAuth'
 import DashboardLayout from '../components/Templates/TDashboardLayout/Dashboard'
-import Post from '../components/pages/post'
-import AddPost from '../components/pages/post/AddPost'
-import EditPost from '../components/pages/post/EditPost'
 import NotFound from '../components/pages/loginpage/NotFound'
-import User from '../components/pages/user'
 // import TestPost from '../components/pages/post/TestPost'
 import Test_A from '../Test_A'
 import TestLogin from '../components/pages/loginpage/TestLogin'
@@ -27,11 +23,11 @@ function AppRoutes() {
             {/* <Route index element={<Post />} /> */}
             {/* <Route path='TestPost' element={<TestPost />} /> */}
             <Route path='TestPostL1' element={<TestPostL1 />} />
-            <Route path='addPost' element={<AddPost />} />
-            <Route path=':id/edit' element={<EditPost />} />
+            {/* <Route path='addPost' element={<AddPost />} /> */}
+            {/* <Route path=':id/edit' element={<EditPost />} /> */}
           </Route>
           <Route path='user'>
-            <Route index element={<User />} />
+            {/* <Route index element={<User />} /> */}
             {/* <Route path='addPost' element={<AddPost />} />
             <Route path=':id/edit' element={<EditPost />} /> */}
           </Route>

@@ -31,15 +31,14 @@ const TestPostL1: React.FC = () => {
     }),
     [meta.page, meta.pageSize, selectedAuthors]
   )
+
   const { data, isLoading, error } = usePosts(meta.page, meta.pageSize, selectedAuthors)
 
-  console.log('>>>>>>>>>>>>>>', data?.posts?.data?.datas) //lấy ra dc post
-
   useEffect(() => {
-    console.log('Dữ liệu trả về:', data)
+    // console.log('Dữ liệu trả về:', data)
 
     if (data?.posts?.data?.datas.length && Array.isArray(data.posts.data.datas)) {
-      console.log('Dữ liệu hợp lệ:', data.posts)
+      // console.log('Dữ liệu hợp lệ:', data.posts)
       setPostsTest(data.posts.data.datas) // Gán dữ liệu hợp lệ
       setMeta({
         page: data.posts.data.page,
@@ -48,56 +47,38 @@ const TestPostL1: React.FC = () => {
       })
     } else {
       setPostsTest([])
-      setMeta({
-        page: data?.posts.data.page,
-        pageSize: data?.posts.data.pageSize,
-        total: data?.posts.data.total
-      })
+      // setMeta({
+      //   page: data?.posts.data.page,
+      //   pageSize: data?.posts.data.pageSize,
+      //   total: data?.posts.data.total
+      // })
     }
-  }, [data, data?.posts?.data?.datas.length])
-
+  }, [data])
+  // console.log('data?.posts?.data?.datas.length', data?.posts?.data?.datas.length)
   // Lấy giá trị từ URL khi trang tải lại
   useEffect(() => {
     setLoading(false)
     const authorsFromUrl = searchParams.getAll('authors')
-    console.log(authorsFromUrl)
+    // console.log(authorsFromUrl)
     if (authorsFromUrl.length > 0) {
       setSelectedAuthors(authorsFromUrl) // Khôi phục trạng thái từ URL
     }
   }, [searchParams])
 
-  console.log('searchParams', selectedAuthors)
-  console.log(selectedAuthors)
-  // Hàm xử lý thay đổi phân trang
-  // const handleOnChange = async (page: number, pageSize: number) => {
-  //   if (meta.page === page && meta.pageSize === pageSize) return
-  //   setSearchParams({
-  //     page: page.toString(),
-  //     pageSize: pageSize.toString(),
-  //     authors: selectedAuthors.join(',')
-  //   })
-  //   setMeta((prevMeta) => ({ ...prevMeta, page, pageSize }))
-  //   window.scrollTo({ top: 0, behavior: 'smooth' })
-  // }
-  const handleOnChange = async (page: number, pageSize: number) => {
+  // console.log('searchParams', selectedAuthors)
+  const handleOnPageChange = async (page: number, pageSize: number) => {
     if (meta.page === page && meta.pageSize === pageSize) return
-
-    setSearchParams((prevParams) => {
-      const newParams = { ...Object.fromEntries(prevParams.entries()) } // Lấy tất cả tham số hiện tại
-      newParams.page = page.toString()
-      newParams.pageSize = pageSize.toString()
-
-      // Chỉ thêm tham số authors nếu có selectedAuthors
-      if (selectedAuthors.length > 0) {
-        newParams.authors = selectedAuthors.join(',')
-      } else {
-        delete newParams.authors // Nếu không có selectedAuthors, xóa tham số authors
-      }
-
-      return newParams
+    setMeta({
+      page: page,
+      pageSize: pageSize,
+      total: meta.total
     })
-
-    setMeta((prevMeta) => ({ ...prevMeta, page, pageSize }))
+    const newParams = new URLSearchParams(searchParams)
+    newParams.set('page', page.toString())
+    newParams.set('pageSize', pageSize.toString())
+    // Cập nhật URL
+    setSearchParams(newParams)
+    // console.log('post-re', postsTest)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
   const buildUrl = (base: string, params: Record<string, any>) => {
@@ -110,27 +91,24 @@ const TestPostL1: React.FC = () => {
       .join('&')
     return `${base}?${queryString}`
   }
-
-  // Hàm xử lý thay đổi tác giả lọc
-  const handleSelectChange = async (selectedAuthors: string[]) => {
+  const handleSelectAuthorChange = async (selectedAuthors: string[]) => {
     setSelectedAuthors(selectedAuthors)
     const newMeta = { ...meta, page: 1 }
     setMeta((prevMeta) => ({ ...prevMeta, page: 1 }))
-    const params = {
+    setSearchParams({
       page: newMeta.page.toString(),
       pageSize: newMeta.pageSize.toString(),
-      authors: selectedAuthors
-    }
-    const url = buildUrl('', params)
-    setSearchParams(url)
+      authors: selectedAuthors // React Router sẽ tự động xử lý danh sách
+    })
   }
-
   const selectAuthorComponent = (author: any) => (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Avatar style={{ backgroundColor: '#87d068' }} icon={!author.avatar && <UserOutlined />} src={author.avatar} />
       <span style={{ marginLeft: 8 }}>{author.name}</span>
     </div>
   )
+  console.log('meta: ', meta)
+  // console.log('posts: ', postsTest)
 
   return (
     <>
@@ -144,7 +122,7 @@ const TestPostL1: React.FC = () => {
             size='large'
             placeholder='Please select'
             // defaultValue={[]}
-            onChange={handleSelectChange}
+            onChange={handleSelectAuthorChange}
             style={{ width: '100%' }}
           >
             {/* Sử dụng divs trong Select */}
@@ -194,7 +172,7 @@ const TestPostL1: React.FC = () => {
           total: meta.total,
           showSizeChanger: true,
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-          onChange: (page: number, pageSize: number) => handleOnChange(page, pageSize)
+          onChange: (page: number, pageSize: number) => handleOnPageChange(page, pageSize)
         }}
         dataSource={postsTest || []}
         renderItem={(item) => (

@@ -1,8 +1,6 @@
 import React from 'react'
 import { Button, message } from 'antd'
-import { deletePost } from '../../../utils'
 import { showMessage } from '../../../constants'
-import { usePostContext } from '../../../contexts/PostContext'
 
 interface DeletePostButtonProps {
   selectedItemId: string | null
@@ -12,7 +10,7 @@ interface DeletePostButtonProps {
 
 const DeletePostButton: React.FC<DeletePostButtonProps> = ({ selectedItemId, onPostDeleted, onClose }) => {
   const [messageApi, contextHolder] = message.useMessage()
-  const { deletePostWithContextAPI } = usePostContext()
+  // const { deletePostWithContextAPI } = usePostContext()
   const handleDelete = async () => {
     if (!selectedItemId) {
       message.warning('No post selected!')
@@ -23,7 +21,7 @@ const DeletePostButton: React.FC<DeletePostButtonProps> = ({ selectedItemId, onP
       // xoá bài biết theo api
       // await deletePost(Number(selectedItemId)) // Gọi API xóa bài viết
       // Xoá bài viết theo context APi
-      await deletePostWithContextAPI(Number(selectedItemId))
+      // await deletePostWithContextAPI(Number(selectedItemId))
       showMessage('success', 'Xoá bài viết thành công', messageApi)
       onClose() // Đóng modal sau khi xóa thành công
 
