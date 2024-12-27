@@ -8,6 +8,7 @@ import NotFound from '../components/pages/loginpage/NotFound'
 import Test_A from '../Test_A'
 import TestLogin from '../components/pages/loginpage/TestLogin'
 import TestPostL1 from '../components/pages/post/TestPostL1'
+import PPost from '../components/pages/post'
 
 function AppRoutes() {
   return (
@@ -20,7 +21,7 @@ function AppRoutes() {
       <Route element={<RequireAuth />}>
         <Route path='/dashboard' element={<DashboardLayout />}>
           <Route path='post'>
-            {/* <Route index element={<Post />} /> */}
+            <Route index element={<PPost />} />
             {/* <Route path='TestPost' element={<TestPost />} /> */}
             <Route path='TestPostL1' element={<TestPostL1 />} />
             {/* <Route path='addPost' element={<AddPost />} /> */}

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Avatar, List, Select } from 'antd'
 import { EditOutlined, UserOutlined } from '@ant-design/icons'
 import UserAvatarTooltip from './UserAvatar'
@@ -10,11 +10,13 @@ import { useSearchParams } from 'react-router-dom'
 import { useSelectedAuthors } from '../../../contexts/SelectedAuthorsContext'
 import { useAuthors } from '../../../contexts/AuthorsContext'
 import { usePosts } from '../../../hook/CustomHook'
+import { IPost } from '../../../utils/AxiosApiServiceLogin'
 const TestPostL1: React.FC = () => {
-  const [postsTest, setPostsTest] = useState([])
+  const [postsTest, setPostsTest] = useState<IPost[]>([])
+  // const [postsTest, setPostsTest] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
   const [searchParams, setSearchParams] = useSearchParams()
-  const { authors, setAuthors } = useAuthors()
+  const { authors } = useAuthors()
   const { selectedAuthors, setSelectedAuthors } = useSelectedAuthors()
 
   const [meta, setMeta] = useState({
@@ -23,23 +25,14 @@ const TestPostL1: React.FC = () => {
     total: 0
   })
   // Sử dụng useMemo để tối ưu tham số URL (chỉ tính lại khi các tham số thay đổi)
-  const memoizedParams = useMemo(
-    () => ({
-      page: meta.page,
-      pageSize: meta.pageSize,
-      authors: selectedAuthors.join(',')
-    }),
-    [meta.page, meta.pageSize, selectedAuthors]
-  )
-
   const { data, isLoading, error } = usePosts(meta.page, meta.pageSize, selectedAuthors)
 
   useEffect(() => {
     // console.log('Dữ liệu trả về:', data)
-
+    console.log()
     if (data?.posts?.data?.datas.length && Array.isArray(data.posts.data.datas)) {
-      // console.log('Dữ liệu hợp lệ:', data.posts)
-      setPostsTest(data.posts.data.datas) // Gán dữ liệu hợp lệ
+      console.log('Dữ liệu hợp lệ:', data)
+      setPostsTest(data?.posts.data.datas) // Gán dữ liệu hợp lệ
       setMeta({
         page: data.posts.data.page,
         pageSize: data.posts.data.pageSize,
@@ -47,11 +40,6 @@ const TestPostL1: React.FC = () => {
       })
     } else {
       setPostsTest([])
-      // setMeta({
-      //   page: data?.posts.data.page,
-      //   pageSize: data?.posts.data.pageSize,
-      //   total: data?.posts.data.total
-      // })
     }
   }, [data])
   // console.log('data?.posts?.data?.datas.length', data?.posts?.data?.datas.length)
@@ -80,16 +68,6 @@ const TestPostL1: React.FC = () => {
     setSearchParams(newParams)
     // console.log('post-re', postsTest)
     window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-  const buildUrl = (base: string, params: Record<string, any>) => {
-    const queryString = Object.entries(params)
-      .flatMap(([key, value]) =>
-        Array.isArray(value)
-          ? value.map((item) => `${encodeURIComponent(key)}=${encodeURIComponent(item)}`)
-          : `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-      )
-      .join('&')
-    return `${base}?${queryString}`
   }
   const handleSelectAuthorChange = async (selectedAuthors: string[]) => {
     setSelectedAuthors(selectedAuthors)

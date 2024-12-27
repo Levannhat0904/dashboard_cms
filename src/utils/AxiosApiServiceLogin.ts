@@ -50,19 +50,19 @@ export interface ISector {
   iconUrl?: string
 }
 
-export interface IAsset {
-  slug?: string
-  name?: string
-  symbol?: string
-  iconUrl?: string
-  id?: string
-}
 
 export interface IPostType {
   name?: string
   slug?: string
   id?: string
   iconUrl?: string
+}
+export interface IAsset {
+  slug?: string
+  name?: string
+  symbol?: string
+  iconUrl?: string
+  id?: string
 }
 
 export interface IPost {
@@ -110,6 +110,22 @@ export interface IApiPostResponse {
     pageSize: number
     total: number
     datas: IPost[]
+  }
+}
+export interface IFetchPostsResponse {
+  posts: {
+    data: {
+      page: number
+      pageSize: number
+      total: number
+      datas: IPost[]
+    },
+    meta: {
+      status: number
+      success?: boolean
+      externalMessage: string
+      internalMessage: string
+    }
   }
 }
 export interface IApiUserResponse {
@@ -172,13 +188,16 @@ export const getUserInfo = async (): Promise<T> => {
   }
 }
 
-export const fetchPosts = async (page?: number, pageSize?: number, authors?: string[]) => {
+export const fetchPosts = async (
+  page?: number,
+  pageSize?: number,
+  authors?: string[]
+) => {
   try {
     // Lấy danh sách bài viết
     const postsResponse = await client.get('api/v1/cms/posts', {
       params: { page, pageSize, authors }
     })
-
     // Trả về dữ liệu gộp
     return {
       posts: postsResponse.data
