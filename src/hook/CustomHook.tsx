@@ -1,5 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { ErrorResponse, fetchPosts, IFetchPostsResponse } from '../utils/AxiosApiServiceLogin'
+import { fetchPosts, IFetchPostsResponse } from '../utils/AxiosApiServiceLogin'
 
 export const usePosts = (page?: number, pageSize?: number, authors?: string[]): UseQueryResult<IFetchPostsResponse> => {
   return useQuery({

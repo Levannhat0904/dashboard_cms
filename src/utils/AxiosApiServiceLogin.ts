@@ -203,8 +203,11 @@ export const fetchPosts = async (
       posts: postsResponse.data
     }
   } catch (error: any) {
-    console.error('Lỗi khi lấy dữ liệu:', error)
-    throw new Error('Không thể lấy dữ liệu. Vui lòng thử lại sau.')
+    console.error('Lỗi khi lấy dữ liệu:', error);
+    return {
+      posts: [],
+      error: true, // Đánh dấu có lỗi
+    };
   }
 }
 export const fetchAuthors = async () => {

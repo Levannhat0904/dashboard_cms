@@ -1,5 +1,5 @@
 // components/atoms/SelectAuthor.tsx
-import { Avatar, Select } from 'antd'
+import { Avatar, Layout, Select } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 const selectAuthorComponent = (author: any) => (
   <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -8,21 +8,23 @@ const selectAuthorComponent = (author: any) => (
   </div>
 )
 const ASelectAuthor = ({ authors, selectedAuthors, onChange }) => (
-  <Select
-    mode='multiple'
-    className='w-10'
-    value={selectedAuthors}
-    size='large'
-    placeholder='Please select'
-    onChange={onChange}
-    style={{ width: '100%' }}
-  >
-    {authors.map((author) => (
-      <Select.Option key={author.id} value={author.id}>
-        {selectAuthorComponent(author)}
-      </Select.Option>
-    ))}
-  </Select>
+  <Layout className='flex justify-end my-2 items-end pr-2'>
+    <Select
+      mode='multiple'
+      className='w-10 '
+      value={selectedAuthors}
+      size='large'
+      placeholder='Please select'
+      onChange={onChange}
+      style={{ width: '60%' }}
+    >
+      {authors.map((author) => (
+        <Select.Option key={author.id} value={author.id}>
+          {selectAuthorComponent(author)}
+        </Select.Option>
+      ))}
+    </Select>
+  </Layout>
 )
 
 export default ASelectAuthor

@@ -78,7 +78,7 @@ const PPost: React.FC = () => {
       selectedAuthors={selectedAuthors}
       handleSelectAuthorChange={handleSelectAuthorChange}
       posts={postsTest}
-      loading={loading}
+      loading={isLoading}
       meta={meta}
       handleOnPageChange={handleOnPageChange}
     />

@@ -2,6 +2,7 @@ import React from 'react'
 import ASelectAuthor from '../../atoms/ASelectAuthor'
 import PostList from '../../organisms/OPostList'
 import { IPost } from '../../../utils/AxiosApiServiceLogin'
+import { Layout } from 'antd'
 
 // Định nghĩa kiểu cho các props của MainPage
 interface MainPageProps {
@@ -28,10 +29,10 @@ const MainPage: React.FC<MainPageProps> = ({
   handleOnPageChange
 }) => {
   return (
-    <div>
+    <Layout>
       <ASelectAuthor authors={authors} selectedAuthors={selectedAuthors} onChange={handleSelectAuthorChange} />
       <PostList posts={posts} loading={loading} meta={meta} onPageChange={handleOnPageChange} />
-    </div>
+    </Layout>
   )
 }
 
