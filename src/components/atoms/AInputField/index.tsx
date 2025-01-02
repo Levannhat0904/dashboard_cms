@@ -27,7 +27,6 @@ const AInput = forwardRef<InputRef, InputProps>(({ placeholder, type, value, siz
       />
     )
   }
-
   return (
     <AntInput
       ref={ref}

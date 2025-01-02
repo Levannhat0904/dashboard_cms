@@ -5,6 +5,7 @@ import { createSlug, validateSlug } from '../../../utils'
 import { addTag } from '../../../utils/AxiosApiServiceLogin'
 import { useAddTag } from '../../../hook/useTag'
 import { useNavigate } from 'react-router-dom'
+import NFormTag from '../../Templates/Tag/NFormTag'
 
 const AddTag = () => {
   const [form] = Form.useForm()
@@ -30,52 +31,53 @@ const AddTag = () => {
     }
   })
   return (
-    <App>
-      <div className='mx-8 my-8'>
-        <Form
-          form={form}
-          name='validateOnly'
-          layout='vertical' // Horizontal layout
-          onFinish={handleFinish}
-          autoComplete='off'
-        >
-          {/* Name Field */}
-          <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Please enter a name' }]}>
-            <Input
-              onChange={(e) => {
-                const name = e.target.value
-                const slug = createSlug(name)
-                form.setFieldsValue({ slug })
-              }}
-            />
-          </Form.Item>
-          {/* Slug Field */}
-          <Form.Item name='slug' label='Slug' rules={[{ required: true }, { validator: validateSlug }]}>
-            <Input />
-          </Form.Item>
-          {/* Group Field */}
-          {/* <Form.Item name='group' label='Group' initialValue='TAG'>
-            <Input disabled />
-          </Form.Item> */}
+    // <App>
+    //   <div className='mx-8 my-8'>
+    //     <Form
+    //       form={form}
+    //       name='validateOnly'
+    //       layout='vertical' // Horizontal layout
+    //       onFinish={handleFinish}
+    //       autoComplete='off'
+    //     >
+    //       {/* Name Field */}
+    //       <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Please enter a name' }]}>
+    //         <Input
+    //           onChange={(e) => {
+    //             const name = e.target.value
+    //             const slug = createSlug(name)
+    //             form.setFieldsValue({ slug })
+    //           }}
+    //         />
+    //       </Form.Item>
+    //       {/* Slug Field */}
+    //       <Form.Item name='slug' label='Slug' rules={[{ required: true }, { validator: validateSlug }]}>
+    //         <Input />
+    //       </Form.Item>
+    //       {/* Group Field */}
+    //       {/* <Form.Item name='group' label='Group' initialValue='TAG'>
+    //         <Input disabled />
+    //       </Form.Item> */}
 
-          {/* Description Field */}
-          <Form.Item name='description' label='Description'>
-            <Input.TextArea />
-          </Form.Item>
-          <InputImg name='featureImage' label='Feature Image' form={form} />
+    //       {/* Description Field */}
+    //       <Form.Item name='description' label='Description'>
+    //         <Input.TextArea />
+    //       </Form.Item>
+    //       <InputImg name='featureImage' label='Feature Image' form={form} />
 
-          {/* Submit and Reset Buttons */}
-          <Form.Item>
-            <Space>
-              <Button loading={isPending} type='primary' htmlType='submit'>
-                Submit
-              </Button>
-              <Button htmlType='reset'>Reset</Button>
-            </Space>
-          </Form.Item>
-        </Form>
-      </div>
-    </App>
+    //       {/* Submit and Reset Buttons */}
+    //       <Form.Item>
+    //         <Space>
+    //           <Button loading={isPending} type='primary' htmlType='submit'>
+    //             Submit
+    //           </Button>
+    //           <Button htmlType='reset'>Reset</Button>
+    //         </Space>
+    //       </Form.Item>
+    //     </Form>
+    //   </div>
+    // </App>
+    <NFormTag autoCreateSlug={true} form={form} handleFinish={handleFinish} isPending={isPending} />
   )
 }
 
