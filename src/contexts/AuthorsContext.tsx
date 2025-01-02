@@ -24,7 +24,7 @@ export const AuthorsProvider = ({ children }: { children: ReactNode }) => {
       console.error('Lỗi khi lấy dữ liệu tác giả:', error)
     }
   }
-  console.log('>>>>>>>>>>Post: ', authors)
+  // console.log('>>>>>>>>>>Post: ', authors)
 
   // Gọi hàm fetchAuthors khi component được mount
   useEffect(() => {

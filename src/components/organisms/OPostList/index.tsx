@@ -12,6 +12,7 @@ interface PostListProps {
     page: number
     pageSize: number
     total: number
+    s?: string
   }
   onPageChange: (page: number, pageSize: number) => Promise<void>
 }

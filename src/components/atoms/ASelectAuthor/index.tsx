@@ -16,7 +16,7 @@ const ASelectAuthor = ({ authors, selectedAuthors, onChange }) => (
       size='large'
       placeholder='Please select'
       onChange={onChange}
-      style={{ width: '60%' }}
+      style={{ width: '40%' }}
     >
       {authors.map((author) => (
         <Select.Option key={author.id} value={author.id}>

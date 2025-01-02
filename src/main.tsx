@@ -8,6 +8,7 @@ import { ConfigProvider } from 'antd'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { SelectedAuthorsProvider } from './contexts/SelectedAuthorsContext.tsx'
 import { AuthorsProvider } from './contexts/AuthorsContext.tsx'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 const queryClient = new QueryClient()
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
             <SelectedAuthorsProvider>
               <AuthorsProvider>
                 <AppRoutes />
+                <ReactQueryDevtools initialIsOpen={false} />
               </AuthorsProvider>
             </SelectedAuthorsProvider>
             {/* </PostProvider> */}

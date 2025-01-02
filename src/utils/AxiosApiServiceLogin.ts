@@ -7,6 +7,8 @@ const accessToken = getAccessToken() // Thay bằng accessToken hợp lệ
 const client = axios.create({
   baseURL: BASE_URL_USER_LOGIN, // Thay bằng base URL API của bạn
   headers: {
+    // 'Content-Type': 'multipart/form-data',
+    'Custom-Header': 'application/json',
     Authorization: `Bearer ${accessToken}`
   }
 })
@@ -36,10 +38,21 @@ export interface IAuthor {
 }
 
 export interface ITag {
-  name?: string
-  slug?: string
   id?: string
   iconUrl?: string
+  name?: string
+  slug?: string
+  group?: 'TAG'
+  description?: string
+  featureImage?: string
+  metaDescription?: string
+  metaTitle?: string
+  ogDescription?: string
+  ogImage?: string
+  ogTitle?: string
+  twitterDescription?: string
+  twitterImage?: string
+  twitterTitle?: string
 }
 
 export interface ISector {
@@ -49,7 +62,6 @@ export interface ISector {
   isParent?: boolean
   iconUrl?: string
 }
-
 
 export interface IPostType {
   name?: string
@@ -119,12 +131,30 @@ export interface IFetchPostsResponse {
       pageSize: number
       total: number
       datas: IPost[]
-    },
+    }
     meta: {
       status: number
       success?: boolean
       externalMessage: string
       internalMessage: string
+    }
+  }
+}
+export interface IFetchTagsResponse {
+  tags: {
+    data: {
+      data: {
+        page: number
+        pageSize: number
+        total: number
+        datas: ITag[]
+      }
+      meta: {
+        status: number
+        success?: boolean
+        externalMessage: string
+        internalMessage: string
+      }
     }
   }
 }
@@ -188,28 +218,6 @@ export const getUserInfo = async (): Promise<T> => {
   }
 }
 
-export const fetchPosts = async (
-  page?: number,
-  pageSize?: number,
-  authors?: string[]
-) => {
-  try {
-    // Lấy danh sách bài viết
-    const postsResponse = await client.get('api/v1/cms/posts', {
-      params: { page, pageSize, authors }
-    })
-    // Trả về dữ liệu gộp
-    return {
-      posts: postsResponse.data
-    }
-  } catch (error: any) {
-    console.error('Lỗi khi lấy dữ liệu:', error);
-    return {
-      posts: [],
-      error: true, // Đánh dấu có lỗi
-    };
-  }
-}
 export const fetchAuthors = async () => {
   try {
     // Lấy thông tin tác giả
@@ -221,5 +229,138 @@ export const fetchAuthors = async () => {
   } catch (error: any) {
     console.error('Lỗi khi lấy dữ liệu:', error)
     throw new Error('Không thể lấy dữ liệu. Vui lòng thử lại sau.')
+  }
+}
+export const fetchPosts = async (page?: number, pageSize?: number, authors?: string[]) => {
+  try {
+    // Lấy danh sách bài viết
+    const postsResponse = await client.get('api/v1/cms/posts', {
+      params: { page, pageSize, authors }
+    })
+    // Trả về dữ liệu gộp
+    return {
+      posts: postsResponse.data
+    }
+  } catch (error: any) {
+    console.error('Lỗi khi lấy dữ liệu:', error)
+    return {
+      posts: [],
+      error: true // Đánh dấu có lỗi
+    }
+  }
+}
+export interface FetchPostsParams {
+  page?: number
+  pageSize?: number
+  authors?: string[]
+  s?: string
+}
+export const fetchPostsV2 = async (params: FetchPostsParams) => {
+  try {
+    // Lấy danh sách bài viết
+    const postsResponse = await client.get<IFetchPostsResponse>('api/v1/cms/posts', {
+      params
+    })
+    // Trả về dữ liệu gộp
+    console.log('check data: ', postsResponse.data)
+    return {
+      posts: postsResponse.data
+    }
+  } catch (error: unknown) {
+    // Kiểm tra kiểu của lỗi
+    if (axios.isAxiosError(error)) {
+      console.error('Lỗi khi lấy dữ liệu từ API:', error.message)
+    } else {
+      console.error('Lỗi không xác định:', error)
+    }
+    return {
+      posts: [],
+      error: true // Đánh dấu có lỗi
+    }
+  }
+}
+// =============
+export interface FetchTagsParams {
+  page?: number
+  pageSize?: number
+  authors?: string[]
+  s?: string
+}
+export const fetchTags = async (params: FetchTagsParams) => {
+  try {
+    // Lấy danh sách bài viết
+    const postsResponse = await client.get<IFetchTagsResponse>('api/v1/cms/tags', {
+      params
+    })
+    // Trả về dữ liệu gộp
+    console.log('check data: ', postsResponse.data)
+    return {
+      tags: postsResponse
+    }
+  } catch (error: unknown) {
+    // Kiểm tra kiểu của lỗi
+    if (axios.isAxiosError(error)) {
+      console.log('error: ', error)
+      console.error('Lỗi khi lấy dữ liệu từ API:', error.response?.data)
+    } else {
+      console.error('Lỗi không xác định:', error)
+    }
+    return {
+      tags: [],
+      error: true // Đánh dấu có lỗi
+    }
+  }
+}
+
+export const uploadImage = async (file: File): Promise<string> => {
+  try {
+    // Tạo FormData và thêm file vào với key là 'image'
+    const formData = new FormData()
+    formData.append('image', file)
+
+    // Gửi request POST với formData
+    const config = { headers: { 'content-type': 'multipart/form-data' } }
+    const response = await client.post('/api/v1/cms/commons/upload-images', formData, config)
+
+    // Trả về URL ảnh từ dữ liệu trả về
+    console.log('img: ', response.data.data.url)
+    return response.data.data.url // URL ảnh sau khi upload thành công
+  } catch (error) {
+    console.error('Lỗi khi tải ảnh lên:', error)
+    throw new Error('Tải ảnh thất bại')
+  }
+}
+
+export const addTag = async (value: ITag) => {
+  try {
+    console.log('Request payload:', value)
+    const response = await client.post('/api/v1/cms/tags', value)
+    console.log('response tag', response)
+    return response
+  } catch (error) {
+    console.error('Lỗi khi tải dữ liệu lên:', error)
+    throw new Error('Tải tag thất bại')
+  }
+}
+export const editTag = async (id: string, newData: ITag) => {
+  try {
+    console.log('Request payload:', newData)
+    const response = await client.put(`/api/v1/cms/tags/${id}`, newData)
+    console.log('response tag', response)
+    return response
+  } catch (error) {
+    console.error('Lỗi khi update dữ liệu lên:', error)
+    throw new Error('update tag thất bại')
+  }
+}
+export const deleteTag = async (id: string) => {
+  try {
+    console.log('Request payload:', id)
+    const response = await client.delete(`/api/v1/cms/tags/${id}`)
+    console.log('response tag', response)
+    return response
+  } catch (error) {
+    console.error('Lỗi khi update dữ liệu lên:', error)
+    throw new Error('update tag thất bại')
   }
 }

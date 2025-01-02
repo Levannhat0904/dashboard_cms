@@ -1,126 +1,90 @@
 import React, { useState } from 'react'
-import { Tag, Tooltip } from 'antd'
-import { TwitterOutlined, CodeOutlined, RobotOutlined } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
+import { Image, Upload } from 'antd'
+import type { GetProp, UploadFile, UploadProps } from 'antd'
 
-// Định nghĩa Interface cho Tag
-interface ITag {
-  name: string
-  slug: string
-  id: string
-  iconUrl?: string // Tùy chọn nếu có iconUrl
-}
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
 
-// Component để hiển thị danh sách các tag
-const TagList: React.FC<{ tags: ITag[] }> = ({ tags }) => {
-  // Giới hạn số lượng tag hiển thị
-  const maxTags = 2
-  const visibleTags = tags.slice(0, maxTags)
-  const remainingTags = tags.slice(maxTags)
+const getBase64 = (file: FileType): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = (error) => reject(error)
+  })
 
-  const [showMoreTags, setShowMoreTags] = useState(false) // Trạng thái để kiểm soát hiển thị tag ẩn
+const App: React.FC = () => {
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const [previewImage, setPreviewImage] = useState('')
+  const [fileList, setFileList] = useState<UploadFile[]>([
+    {
+      uid: '-1',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    },
+    {
+      uid: '-2',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    },
+    {
+      uid: '-3',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    },
+    {
+      uid: '-4',
+      name: 'image.png',
+      status: 'done',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    },
+    {
+      uid: '-xxx',
+      percent: 50,
+      name: 'image.png',
+      status: 'uploading',
+      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+    },
+    {
+      uid: '-5',
+      name: 'image.png',
+      status: 'error'
+    }
+  ])
 
-  // Hàm trả về biểu tượng dựa trên slug của tag hoặc null nếu không có iconUrl
-  const getTagIcon = (slug: string, iconUrl?: string): React.ReactNode => {
-    // Nếu không có iconUrl, không hiển thị icon
-    if (!iconUrl) {
-      return null
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as FileType)
     }
 
-    // Nếu có iconUrl, hiển thị icon từ URL
-    return <img src={iconUrl} alt={slug} style={{ width: 16, height: 16, marginRight: 8 }} />
+    setPreviewImage(file.url || (file.preview as string))
+    setPreviewOpen(true)
   }
 
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList)
+
+  const uploadButton = (
+    <button style={{ border: 0, background: 'none' }} type='button'>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </button>
+  )
   return (
-    <div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-        {/* Hiển thị các tag đã giới hạn */}
-        {visibleTags.map((tag) => (
-          <Tooltip key={tag.id} title={`Slug: ${tag.slug}`} placement='top'>
-            <Tag
-              icon={getTagIcon(tag.slug, tag.iconUrl)}
-              color='#55acee'
-              style={{
-                margin: '5px',
-                display: 'flex',
-                alignItems: 'center', // Cả icon và text sẽ căn chỉnh theo hàng ngang
-                padding: '0 10px',
-                height: '30px'
-              }}
-            >
-              {/* Nếu không có iconUrl, chỉ hiển thị text */}
-              {tag.name}
-            </Tag>
-          </Tooltip>
-        ))}
-
-        {/* Hiển thị các tag còn lại khi "More" được click */}
-        {showMoreTags &&
-          remainingTags.map((tag) => (
-            <Tooltip key={tag.id} title={`Slug: ${tag.slug}`} placement='top'>
-              <Tag
-                icon={getTagIcon(tag.slug, tag.iconUrl)}
-                color='#55acee'
-                style={{
-                  margin: '5px',
-                  display: 'flex',
-                  alignItems: 'center', // Cả icon và text sẽ căn chỉnh theo hàng ngang
-                  padding: '0 10px',
-                  height: '30px'
-                }}
-              >
-                {tag.name}
-              </Tag>
-            </Tooltip>
-          ))}
-
-        {/* Hiển thị nút "More" hoặc "Less" nếu có tag bị ẩn */}
-        {remainingTags.length > 0 && (
-          <Tooltip title={showMoreTags ? 'Click to hide tags' : 'Click to view more tags'} placement='top'>
-            <Tag
-              color='default'
-              key='more'
-              onClick={() => setShowMoreTags(!showMoreTags)} // Click để hiển thị/ẩn các tag còn lại
-              style={{
-                margin: '5px',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                backgroundColor: '#f0f0f0',
-                borderColor: '#d9d9d9',
-                display: 'flex',
-                alignItems: 'center', // Cả icon và text sẽ căn chỉnh theo hàng ngang
-                padding: '0 10px'
-              }}
-            >
-              {showMoreTags ? 'Less' : `+${remainingTags.length} more`}
-            </Tag>
-          </Tooltip>
-        )}
-      </div>
-    </div>
+    <>
+      <Upload
+        action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload'
+        listType='picture-card'
+        // fileList={fileList}
+        onPreview={handlePreview}
+        onChange={handleChange}
+      >
+        {fileList.length >= 8 ? null : uploadButton}
+      </Upload>
+    </>
   )
 }
 
-// Component chính
-const Test_A: React.FC = () => {
-  // Dữ liệu tags
-  const tags: ITag[] = [
-    { name: 'Layer-1', slug: 'layer-1', id: '66006bd39080a13368c78857', iconUrl: '' }, // Không có iconUrl
-    { name: 'NFTs', slug: 'nfts', id: '66006beb9080a13368c78866', iconUrl: 'https://example.com/nft-icon.png' }, // Có iconUrl
-    {
-      name: 'Artificial Intelligence (AI)',
-      slug: 'artificial-intelligence',
-      id: '665dc88049b0a8831bec5497',
-      iconUrl: ''
-    }, // Không có iconUrl
-    {
-      name: 'Blockchain',
-      slug: 'blockchain',
-      id: '66006bd39080a13368c78899',
-      iconUrl: 'https://example.com/blockchain-icon.png'
-    } // Có iconUrl
-  ]
-
-  return <TagList tags={tags} />
-}
-
-export default Test_A
+export default App

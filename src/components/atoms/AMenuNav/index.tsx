@@ -28,9 +28,9 @@ const items = [
   },
   {
     key: '3',
-    label: 'Option 3',
+    label: 'Tags',
     icon: <DesktopOutlined className='custom-classs' />,
-    path: '/option3',
+    path: 'tag',
     className: 'custom-classs' // Add custom class here
   },
 
