@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { useMemo, useCallback } from 'react'
 
 interface Meta {
   page: number
@@ -31,6 +32,25 @@ const usePagination = (initialMeta: Meta) => {
 
   return {
     // meta,
+    handleOnPageChange
+  }
+}
+
+export const usePaginationV2 = (defaultPage: number = 1, defaultPageSize: number = 10) => {
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const handleOnPageChange = useCallback(
+    (page: number = defaultPage, pageSize: number = defaultPageSize) => {
+      const newParams = new URLSearchParams(searchParams)
+      newParams.set('page', page.toString())
+      newParams.set('pageSize', pageSize.toString())
+      setSearchParams(newParams)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
+    [defaultPage, defaultPageSize, searchParams, setSearchParams]
+  )
+
+  return {
     handleOnPageChange
   }
 }

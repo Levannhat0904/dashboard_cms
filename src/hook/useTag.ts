@@ -3,6 +3,7 @@ import {
   addTag,
   deleteTag,
   editTag,
+  fetchTagById,
   fetchTags,
   FetchTagsParams,
   IFetchTagsResponse
@@ -21,7 +22,7 @@ export const useTags = (params: FetchTagsParams): UseQueryResult<IFetchTagsRespo
     queryKey: ['fetchTags', { ...params }],
     queryFn: () => fetchTags(params),
     staleTime: 5 * 60 * 1000, // 5 phút
-    gcTime: 10 * 60 * 1000, // 10 phút
+    gcTime: 10 * 60 * 1000 // 10 phút
   })
 
   // Bạn có thể trả về refetch để gọi lại khi cần
@@ -54,6 +55,21 @@ export const useUpdateTag = () => {
     },
     onSettled: () => {
       console.log('Quá trình cập nhật tag đã kết thúc') // Khi quá trình hoàn tất (dù thành công hay thất bại)
+    }
+  })
+}
+export const useFetchTagById = () => {
+  // const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id }) => fetchTagById(id),
+    onSuccess: (response) => {
+      console.log('thành công:', response.data) // Thành công
+    },
+    onError: (error: Error) => {
+      console.error('Lỗi tag:', error.message) // Lỗi
+    },
+    onSettled: () => {
+      console.log('Quá trình tag đã kết thúc') // Khi quá trình hoàn tất (dù thành công hay thất bại)
     }
   })
 }

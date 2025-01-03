@@ -1,12 +1,13 @@
-import { App, Breadcrumb, Layout } from 'antd'
+import { App, Breadcrumb, FormInstance, Layout } from 'antd'
 import { Link } from 'react-router-dom'
 import NFormSection from '../../organisms/NFormSection'
+import { ITag } from '../../../utils/AxiosApiServiceLogin'
 
 interface PageTemplateProps {
-  dataReceived?: any
-  initialValues?: any
-  form: any
-  handleFinish: (values: any) => void
+  dataReceived?: ITag
+  initialValues?: ITag
+  form: FormInstance
+  handleFinish: (values: object) => void
   isPending: boolean
   autoCreateSlug?: boolean
 }
@@ -20,7 +21,10 @@ const NFormTag: React.FC<PageTemplateProps> = ({
   isPending
 }) => (
   <Layout>
-    <Breadcrumb items={[{ title: <Link to='/dashboard/tag'>Tag</Link> }, { title: dataReceived?.name }]} />
+    <Breadcrumb
+      className='my-2 mx-2'
+      items={[{ title: <Link to='/dashboard/tag'>Tag</Link> }, { title: dataReceived?.name }]}
+    />
     {/* {dataReceived ? ( */}
     <App>
       <NFormSection

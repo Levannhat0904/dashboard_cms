@@ -7,9 +7,10 @@ interface InputImgProps {
   label: string
   form: any
   initialValues?: any
+  setUploading: any
 }
 
-const NInputImg: React.FC<InputImgProps> = ({ name, label, initialValues, form }) => {
+const NInputImg: React.FC<InputImgProps> = ({ name, label, initialValues, form, setUploading }) => {
   // const [fileList, setFileList] = useState<any[]>([])
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const { mutate, isPending, isError, isSuccess, error, data } = useUploadImage()
@@ -31,7 +32,6 @@ const NInputImg: React.FC<InputImgProps> = ({ name, label, initialValues, form }
         }
       ] as UploadFile<any>[])
     : []
-  // setFileList(defaultFileList)
   useEffect(() => {
     setFileList(defaultFileList)
   }, [])
@@ -41,6 +41,9 @@ const NInputImg: React.FC<InputImgProps> = ({ name, label, initialValues, form }
     if (isSuccess && data) {
       form.setFieldsValue({ [name]: data }) // Lưu URL ảnh vào form
       console.log('URL ảnh tải lên:', data) // Dữ liệu trả về là URL của ảnh
+      setUploading(false)
+    } else if (isPending) {
+      setUploading(true)
     }
   }, [isPending, isError, isSuccess, data, error, form])
 

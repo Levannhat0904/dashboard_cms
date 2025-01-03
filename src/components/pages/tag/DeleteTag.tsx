@@ -9,7 +9,6 @@ interface DeleteTagProps {
 }
 
 const DeleteTag: React.FC<DeleteTagProps> = ({ isModalDeleteOpen, setIsModalDeleteOpen, dataDelete }) => {
-  console.log('dataDelete: ', dataDelete?.id)
   const { isSuccess, isPending, data, mutate } = useDeleteTag()
 
   const handleOk = () => {
@@ -19,9 +18,9 @@ const DeleteTag: React.FC<DeleteTagProps> = ({ isModalDeleteOpen, setIsModalDele
   }
   useEffect(() => {
     if (isSuccess) {
-      setIsModalDeleteOpen(isPending) //lỗi
+      setIsModalDeleteOpen(isPending)
     }
-  }, [isPending])
+  }, [isSuccess])
 
   const handleCancel = () => {
     setIsModalDeleteOpen(false)
@@ -31,12 +30,12 @@ const DeleteTag: React.FC<DeleteTagProps> = ({ isModalDeleteOpen, setIsModalDele
     <>
       <Modal
         confirmLoading={isPending}
-        title='Basic Modal'
+        title='Delete the task'
         open={isModalDeleteOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <p>Some contents...</p>
+        <p>Are you sure to delete this tag?</p>
       </Modal>
     </>
   )

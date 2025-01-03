@@ -6,33 +6,29 @@ import PostListItem from '../../molecules/MListItem'
 import { IPost } from '../../../utils/AxiosApiServiceLogin'
 
 interface PostListProps {
-  posts: IPost[] // Bạn có thể thay thế 'any' bằng kiểu cụ thể của posts nếu biết
   loading: boolean
-  meta: {
-    page: number
-    pageSize: number
-    total: number
-    s?: string
-  }
+  datas: any
   onPageChange: (page: number, pageSize: number) => Promise<void>
 }
-const PostList: React.FC<PostListProps> = ({ posts, loading, meta, onPageChange }) => (
+const PostList: React.FC<PostListProps> = ({ datas, loading, onPageChange }) => (
   <>
     <PostListHeader />
+    {console.log('datas: ', datas?.posts.data)}
+
     <List
       className='z-10'
       itemLayout='vertical'
       size='large'
       loading={loading}
       pagination={{
-        current: meta.page,
-        pageSize: meta.pageSize,
-        total: meta.total,
+        current: datas?.posts.data.page,
+        pageSize: datas?.posts.data.pageSize,
+        total: datas?.posts.data.total,
         showSizeChanger: true,
         showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
         onChange: onPageChange
       }}
-      dataSource={posts}
+      dataSource={datas?.posts.data.datas}
       renderItem={(item) => <PostListItem item={item} />}
     />
   </>

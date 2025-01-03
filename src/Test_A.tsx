@@ -1,90 +1,34 @@
-import React, { useState } from 'react'
-import { PlusOutlined } from '@ant-design/icons'
-import { Image, Upload } from 'antd'
-import type { GetProp, UploadFile, UploadProps } from 'antd'
+import React from 'react'
+import type { CollapseProps } from 'antd'
+import { Collapse } from 'antd'
+import NInputField from './components/atoms/InputField'
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
+const text = <NInputField label='ig' name='ig' />
 
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = (error) => reject(error)
-  })
+const items: CollapseProps['items'] = [
+  {
+    key: '2',
+    label: 'This is panel header 2',
+    children: <p>{text}</p>
+  },
+  {
+    key: '1',
+    label: 'This is panel header 2',
+    children: <p>{text}</p>
+  },
+  {
+    key: '3',
+    label: 'This is panel header 3',
+    children: <p>{text}</p>
+  }
+]
 
 const App: React.FC = () => {
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState('')
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: '-1',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    },
-    {
-      uid: '-2',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    },
-    {
-      uid: '-3',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    },
-    {
-      uid: '-4',
-      name: 'image.png',
-      status: 'done',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    },
-    {
-      uid: '-xxx',
-      percent: 50,
-      name: 'image.png',
-      status: 'uploading',
-      url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-    },
-    {
-      uid: '-5',
-      name: 'image.png',
-      status: 'error'
-    }
-  ])
-
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as FileType)
-    }
-
-    setPreviewImage(file.url || (file.preview as string))
-    setPreviewOpen(true)
+  const onChange = (key: string | string[]) => {
+    console.log(key)
   }
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList)
-
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type='button'>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </button>
-  )
-  return (
-    <>
-      <Upload
-        action='https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload'
-        listType='picture-card'
-        // fileList={fileList}
-        onPreview={handlePreview}
-        onChange={handleChange}
-      >
-        {fileList.length >= 8 ? null : uploadButton}
-      </Upload>
-    </>
-  )
+  return <Collapse onChange={onChange} items={items} />
 }
 
 export default App

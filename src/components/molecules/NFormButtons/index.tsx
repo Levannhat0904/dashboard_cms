@@ -7,7 +7,7 @@ interface FormButtonsProps {
 
 const NFormButtons: React.FC<FormButtonsProps> = ({ isPending }) => (
   <Form.Item>
-    <Space>
+    <Space className='my-3'>
       <NButtonComponent loading={isPending} type='primary' htmlType='submit'>
         Submit
       </NButtonComponent>

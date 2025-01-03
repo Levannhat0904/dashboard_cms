@@ -1,12 +1,13 @@
+import { FormInstance } from 'antd'
 import NInputField from '../../atoms/InputField'
 
 interface FormInputProps {
   label: string
   name: string
-  rules?: any[]
+  rules?: object[]
   autoCreateSlug?: boolean
   [key: string]: any
-  form?: any
+  form?: FormInstance
 }
 
 const NFormInput: React.FC<FormInputProps> = ({ label, name, rules, form, autoCreateSlug, ...props }) => (

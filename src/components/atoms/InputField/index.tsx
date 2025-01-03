@@ -1,14 +1,13 @@
-import { Input, Form, InputProps } from 'antd'
+import { Input, Form, InputProps, FormInstance } from 'antd'
 import { createSlug } from '../../../utils'
 
-interface InputFieldProps extends InputProps {
+interface InputFieldProps extends Omit<InputProps, 'form'> {
   label: string
   name: string
-  rules?: any[]
+  rules?: object
   autoCreateSlug?: boolean
-  form: any
+  form?: FormInstance
 }
-
 const NInputField: React.FC<InputFieldProps> = ({ label, name, rules, autoCreateSlug, form, ...props }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (autoCreateSlug && name === 'name') {

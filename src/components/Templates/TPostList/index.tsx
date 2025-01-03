@@ -1,10 +1,9 @@
 import React, { ChangeEvent } from 'react'
 import ASelectAuthor from '../../atoms/ASelectAuthor'
 import PostList from '../../organisms/OPostList'
-import { IPost } from '../../../utils/AxiosApiServiceLogin'
 import { Input, Layout } from 'antd'
+import { useSearchParams } from 'react-router-dom'
 const { Search } = Input
-// Định nghĩa kiểu cho các props của MainPage
 interface MainPageProps {
   authors?: string[]
   selectedAuthors: string[]
@@ -12,34 +11,31 @@ interface MainPageProps {
   handleSelectAuthorChange: (selectedAuthors: string[]) => void
   handleSearch: (s: string) => void
   handleInputSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  posts: IPost[] // Bạn có thể thay thế 'any' bằng kiểu cụ thể của posts nếu biết
   loading: boolean
-  meta: {
-    page: number
-    pageSize: number
-    total: number
-    s?: string
-  } // Bạn có thể thay thế 'any' bằng kiểu cụ thể của meta nếu biết
+  datas: any
   handleOnPageChange: (page: number, pageSize: number) => Promise<void>
 }
 const MainPage: React.FC<MainPageProps> = ({
   authors,
   selectedAuthors,
   handleSelectAuthorChange,
-  posts,
+  // posts,
   handleSearch,
   loading,
-  meta,
+  // meta,
+  datas,
   handleOnPageChange,
   handleInputSearchChange
 }) => {
+  const [searchParams] = useSearchParams()
+  const s = searchParams.get('s') || ''
   return (
     <Layout>
       <div className='flex justify-between w-full items-center'>
         <Search
           className='h-full ml-4 w-[30%]'
           // value={meta.s}
-          defaultValue={meta.s}
+          defaultValue={s}
           // onChange={handleInputSearchChange}
           onChange={(e) => handleInputSearchChange(e)}
           placeholder='input search text'
@@ -49,7 +45,7 @@ const MainPage: React.FC<MainPageProps> = ({
         <ASelectAuthor authors={authors} selectedAuthors={selectedAuthors} onChange={handleSelectAuthorChange} />
         {/* <AInputSearch /> */}
       </div>
-      <PostList posts={posts} loading={loading} meta={meta} onPageChange={handleOnPageChange} />
+      <PostList datas={datas} loading={loading} onPageChange={handleOnPageChange} />
     </Layout>
   )
 }

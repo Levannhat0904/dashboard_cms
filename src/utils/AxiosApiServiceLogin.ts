@@ -353,6 +353,17 @@ export const editTag = async (id: string, newData: ITag) => {
     throw new Error('update tag thất bại')
   }
 }
+export const fetchTagById = async (id: string) => {
+  try {
+    console.log('Request payload:', id)
+    const response = await client.get(`/api/v1/cms/tags/${id}`)
+    console.log('response tag', response)
+    return response
+  } catch (error) {
+    console.error('Lỗi khi update dữ liệu lên:', error)
+    throw new Error('update tag thất bại')
+  }
+}
 export const deleteTag = async (id: string) => {
   try {
     console.log('Request payload:', id)
