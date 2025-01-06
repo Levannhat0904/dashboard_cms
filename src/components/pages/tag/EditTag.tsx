@@ -1,6 +1,6 @@
 // export default EditTag
 import React, { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Form, Skeleton } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useFetchTagById, useUpdateTag } from '../../../hook/useTag'
