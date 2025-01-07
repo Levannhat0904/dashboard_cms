@@ -18,3 +18,10 @@ a {
 body {
   padding: 0 0px;
 }
+
+.ant-select-selection-item {
+  height: 40px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-items: center !important;
+}

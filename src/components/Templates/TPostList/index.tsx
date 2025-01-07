@@ -1,10 +1,9 @@
 import React from 'react'
-import ASelectAuthor from '../../atoms/ASelectAuthor'
 import PostList from '../../organisms/OPostList'
-import { Input, Layout } from 'antd'
+import { Flex, Input, Layout } from 'antd'
 import { useSearchParams } from 'react-router-dom'
 import { IAsset, IAuthor, IFetchPostsResponse } from '../../../utils/AxiosApiServiceLogin'
-import ASelectAasset from '../../atoms/ASelectAasset'
+import FilterSelect from '../../atoms/ASelectAuthor'
 const { Search } = Input
 interface MainPageProps {
   assets?: IAsset[]
@@ -40,9 +39,10 @@ const MainPage: React.FC<MainPageProps> = ({
   const s = searchParams.get('s') || ''
   return (
     <Layout>
-      <div className='flex justify-between w-full items-center'>
+      <Flex gap='large' align='center' justify='right' wrap className='my-3'>
         <Search
-          className='h-full ml-4 w-[30%]'
+          size='large'
+          className='h-full w-60'
           // value={meta.s}
           defaultValue={s}
           // onChange={handleInputSearchChange}
@@ -51,10 +51,9 @@ const MainPage: React.FC<MainPageProps> = ({
           onSearch={handleSearch}
           enterButton
         />
-        <ASelectAuthor authors={authors} selectedAuthors={selectedAuthors} onChange={handleSelectAuthorChange} />
-        <ASelectAasset assets={assets} selectedAssets={selectedAssets} onChange={handleSelectAssetChange} />
-        {/* <AInputSearch /> */}
-      </div>
+        <FilterSelect items={authors} selectedItems={selectedAuthors} onChange={handleSelectAuthorChange} />
+        <FilterSelect items={assets} selectedItems={selectedAssets} onChange={handleSelectAssetChange} />
+      </Flex>
       <PostList datas={datas} loading={loading} onPageChange={handleOnPageChange} />
     </Layout>
   )

@@ -17,7 +17,7 @@ const DashboardLayout: React.FC = () => {
   return (
     <Layout style={{ minHeight: '100vh', minWidth: '100vw' }}>
       <Sidebar collapsed={collapsed} open={open} toggleDrawer={toggleDrawer} toggleCollapse={toggleCollapse} />
-      <Layout>
+      <Layout className='md:ml-[240px]'>
         <MHeader toggleDrawer={toggleDrawer} collapsed={collapsed} />
         <MContent />
         <MFooter />

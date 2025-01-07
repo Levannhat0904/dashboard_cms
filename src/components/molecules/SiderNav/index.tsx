@@ -11,9 +11,20 @@ interface SidebarProps {
   toggleDrawer?: () => void
   toggleCollapse?: () => void
 }
+const siderStyle: React.CSSProperties = {
+  overflow: 'auto',
+  height: '100vh',
+  position: 'fixed',
+  insetInlineStart: 0,
+  top: 0,
+  bottom: 0,
+  scrollbarWidth: 'thin',
+  scrollbarGutter: 'stable'
+}
 const index: React.FC<SidebarProps> = ({ collapsed, toggleCollapse, className }) => {
   return (
     <Sider
+      style={siderStyle}
       className={cn('bg-[#013366] pl-0 w-full h-screen', className)}
       collapsible
       collapsed={collapsed} // Trạng thái thu gọn của Sider

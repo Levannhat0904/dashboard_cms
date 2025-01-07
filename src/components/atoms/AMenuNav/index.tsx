@@ -107,6 +107,16 @@ const CustomMenu = () => {
       className: item.className // Áp dụng className cho từng item riêng biệt
     }
   })
+  const siderStyle: React.CSSProperties = {
+    overflow: 'auto',
+    height: '100vh',
+    position: 'fixed',
+    insetInlineStart: 0,
+    top: 0,
+    bottom: 0,
+    scrollbarWidth: 'thin',
+    scrollbarGutter: 'stable'
+  }
 
   return (
     <ConfigProvider
@@ -127,6 +137,7 @@ const CustomMenu = () => {
       }}
     >
       <Menu
+        // style={siderStyle}
         mode='inline'
         defaultSelectedKeys={['0']}
         className='text-[#038fde] custom-menu bg-[#013366]'

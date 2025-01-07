@@ -1,7 +1,7 @@
 // components/atoms/SelectAuthor.tsx
-import { Avatar, Layout, Select } from 'antd'
+import { Avatar, Select, Tooltip } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import { IAsset, IAuthor } from '../../../utils/AxiosApiServiceLogin'
+import { IAsset } from '../../../utils/AxiosApiServiceLogin'
 interface ASelectAuthorProps {
   assets: IAsset[] | undefined // Mảng chứa danh sách các tác giả
   selectedAssets: string[] // Mảng chứa ID của các tác giả đã được chọn
@@ -14,15 +14,23 @@ const selectAuthorComponent = (asset: IAsset) => (
   </div>
 )
 const ASelectAasset: React.FC<ASelectAuthorProps> = ({ assets, selectedAssets, onChange }) => (
-  <Layout className='flex justify-end my-2 items-end pr-2'>
+  <div className='w-60'>
     <Select
       mode='multiple'
-      className='w-10 '
       value={selectedAssets}
       size='large'
+      maxTagCount={1}
+      style={{ width: '100%' }}
       placeholder='Please select'
       onChange={onChange}
-      style={{ width: '40%' }}
+      maxTagPlaceholder={(omittedValues) => (
+        <Tooltip
+          title={omittedValues.map(({ label }) => label)} // Nối các nhãn thành chuỗi
+          mouseEnterDelay={0.5} // Thêm độ trễ cho tooltip khi hover
+        >
+          <span>+{omittedValues.length}</span>
+        </Tooltip>
+      )}
     >
       {assets?.map((assets) => (
         <Select.Option key={assets.id} value={assets.id}>
@@ -30,7 +38,7 @@ const ASelectAasset: React.FC<ASelectAuthorProps> = ({ assets, selectedAssets, o
         </Select.Option>
       ))}
     </Select>
-  </Layout>
+  </div>
 )
 
 export default ASelectAasset

@@ -1,36 +1,58 @@
-// components/atoms/SelectAuthor.tsx
-import { Avatar, Layout, Select } from 'antd'
+import React from 'react'
+import { Avatar, Select, Tooltip } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import { IAuthor } from '../../../utils/AxiosApiServiceLogin'
-interface ASelectAuthorProps {
-  authors: IAuthor[] | undefined // Mảng chứa danh sách các tác giả
-  selectedAuthors: string[] // Mảng chứa ID của các tác giả đã được chọn
-  onChange: (selected: string[]) => void // Hàm callback khi danh sách tác giả được chọn thay đổi
+import { IAsset, IAuthor } from '../../../utils/AxiosApiServiceLogin'
+
+interface FilterSelectProps {
+  items: IAsset[] | IAuthor[] | undefined // Mảng chứa danh sách item
+  selectedItems: string[] // Mảng chứa ID của các item đã được chọn
+  onChange: (selected: string[]) => void // Hàm callback khi danh sách item được chọn thay đổi
+  placeholder?: string // Placeholder cho Select
 }
-const selectAuthorComponent = (author: IAuthor) => (
+
+const selectItemComponent = (item: IAsset[] | IAuthor[] | undefined) => (
   <div style={{ display: 'flex', alignItems: 'center' }}>
-    <Avatar style={{ backgroundColor: '#87d068' }} icon={!author.avatar && <UserOutlined />} src={author.avatar} />
-    <span style={{ marginLeft: 8 }}>{author.name}</span>
+    <Avatar
+      // (user as IAuthor)
+      style={{ backgroundColor: '#87d068' }}
+      icon={!(item as IAuthor).avatar && !(item as IAsset).iconUrl && <UserOutlined />}
+      src={(item as IAuthor).avatar || (item as IAsset).iconUrl}
+    />
+    <span style={{ marginLeft: 8 }}>{(item as IAsset).name}</span>
   </div>
 )
-const ASelectAuthor: React.FC<ASelectAuthorProps> = ({ authors, selectedAuthors, onChange }) => (
-  <Layout className='flex justify-end my-2 items-end pr-2'>
+
+const FilterSelect: React.FC<FilterSelectProps> = ({
+  items,
+  selectedItems,
+  onChange,
+  placeholder = 'Please select'
+}) => (
+  <div className='w-60'>
     <Select
       mode='multiple'
-      className='w-10 '
-      value={selectedAuthors}
+      value={selectedItems}
       size='large'
-      placeholder='Please select'
+      maxTagCount={1}
+      style={{ width: '100%' }}
+      placeholder={placeholder}
       onChange={onChange}
-      style={{ width: '40%' }}
+      maxTagPlaceholder={(omittedValues) => (
+        <Tooltip
+          title={omittedValues.map(({ label }) => label)} // Nối các nhãn thành chuỗi
+          mouseEnterDelay={0.5} // Thêm độ trễ cho tooltip khi hover
+        >
+          <span>+{omittedValues.length}</span>
+        </Tooltip>
+      )}
     >
-      {authors?.map((author) => (
-        <Select.Option key={author.id} value={author.id}>
-          {selectAuthorComponent(author)}
+      {items?.map((item) => (
+        <Select.Option key={item.id} value={item.id}>
+          {selectItemComponent(item)}
         </Select.Option>
       ))}
     </Select>
-  </Layout>
+  </div>
 )
 
-export default ASelectAuthor
+export default FilterSelect
