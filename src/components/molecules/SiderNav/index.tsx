@@ -17,6 +17,7 @@ const siderStyle: React.CSSProperties = {
   position: 'fixed',
   insetInlineStart: 0,
   top: 0,
+  zIndex: '1000',
   bottom: 0,
   scrollbarWidth: 'thin',
   scrollbarGutter: 'stable'

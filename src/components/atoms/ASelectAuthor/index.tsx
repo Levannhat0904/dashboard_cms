@@ -6,7 +6,7 @@ import { IAsset, IAuthor } from '../../../utils/AxiosApiServiceLogin'
 interface FilterSelectProps {
   items: IAsset[] | IAuthor[] | undefined // Mảng chứa danh sách item
   selectedItems: string[] // Mảng chứa ID của các item đã được chọn
-  onChange: (selected: string[]) => void // Hàm callback khi danh sách item được chọn thay đổi
+  onChange?: (selected: string[]) => void // Hàm callback khi danh sách item được chọn thay đổi
   placeholder?: string // Placeholder cho Select
 }
 
