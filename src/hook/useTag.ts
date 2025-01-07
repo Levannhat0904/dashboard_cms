@@ -6,27 +6,21 @@ import {
   fetchTagById,
   fetchTags,
   FetchTagsParams,
-  IFetchTagsResponse
+  IFetchTagsResponse,
+  ITag
 } from '../utils/AxiosApiServiceLogin'
 
-// export const useTags = (params: FetchTagsParams): UseQueryResult<IFetchTagsResponse> => {
-//   return useQuery({
-//     queryKey: ['fetchTags', { ...params }],
-//     queryFn: () => fetchTags(params),
-//     staleTime: 5 * 60 * 1000, // 5 phút
-//     gcTime: 10 * 60 * 1000 // 10 phút
-//   })
-// }
+interface TagIdParams {
+  id: string
+  newData?: ITag
+}
 export const useTags = (params: FetchTagsParams): UseQueryResult<IFetchTagsResponse> => {
-  const { refetch, ...queryResult } = useQuery({
+  return useQuery({
     queryKey: ['fetchTags', { ...params }],
     queryFn: () => fetchTags(params),
     staleTime: 5 * 60 * 1000, // 5 phút
     gcTime: 10 * 60 * 1000 // 10 phút
   })
-
-  // Bạn có thể trả về refetch để gọi lại khi cần
-  return { ...queryResult, refetch }
 }
 export const useAddTag = () => {
   return useMutation({
@@ -45,7 +39,7 @@ export const useAddTag = () => {
 export const useUpdateTag = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, newData }) => editTag(id, newData),
+    mutationFn: ({ id, newData }: TagIdParams) => editTag(id, newData),
     onSuccess: (response) => {
       console.log('Tag đã được cập nhật thành công:', response.data) // Thành công
       queryClient.invalidateQueries({ queryKey: ['fetchTags'] })
@@ -58,10 +52,11 @@ export const useUpdateTag = () => {
     }
   })
 }
+
 export const useFetchTagById = () => {
   // const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id }) => fetchTagById(id),
+    mutationFn: ({ id }: TagIdParams) => fetchTagById(id),
     onSuccess: (response) => {
       console.log('thành công:', response.data) // Thành công
     },
@@ -76,9 +71,10 @@ export const useFetchTagById = () => {
 export const useDeleteTag = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id }) => deleteTag(id),
+    mutationFn: ({ id }: TagIdParams) => deleteTag(id),
     onSuccess: () => {
-      queryClient.invalidateQueries('fetchTags')
+      // queryClient.invalidateQueries('fetchTags')
+      queryClient.invalidateQueries({ queryKey: ['fetchTags'] })
     },
     onError: (error: Error) => {
       console.error('Lỗi khi cập nhật tag:', error.message) // Lỗi

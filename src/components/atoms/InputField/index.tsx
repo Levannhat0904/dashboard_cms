@@ -1,10 +1,11 @@
 import { Input, Form, InputProps, FormInstance } from 'antd'
 import { createSlug } from '../../../utils'
+import { Rule } from 'antd/es/form'
 
 interface InputFieldProps extends Omit<InputProps, 'form'> {
   label: string
   name: string
-  rules?: object
+  rules?: Rule[]
   autoCreateSlug?: boolean
   form?: FormInstance
 }
@@ -14,7 +15,7 @@ const NInputField: React.FC<InputFieldProps> = ({ label, name, rules, autoCreate
       const nameValue = e.target.value
       console.log('dsad')
       const slug = createSlug(nameValue) // Tạo slug từ giá trị name
-      form.setFieldsValue({ slug }) // Cập nhật slug vào form
+      form?.setFieldsValue({ slug }) // Cập nhật slug vào form
     }
   }
 

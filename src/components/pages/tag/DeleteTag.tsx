@@ -9,10 +9,10 @@ interface DeleteTagProps {
 }
 
 const DeleteTag: React.FC<DeleteTagProps> = ({ isModalDeleteOpen, setIsModalDeleteOpen, dataDelete }) => {
-  const { isSuccess, isPending, data, mutate } = useDeleteTag()
+  const { isSuccess, isPending, mutate } = useDeleteTag()
 
   const handleOk = () => {
-    const id = dataDelete?.id
+    const id = dataDelete?.id ?? ''
     // mutate({ id })
     mutate({ id: id })
   }

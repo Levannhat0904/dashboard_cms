@@ -1,16 +1,6 @@
 import { DesktopOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons'
 import { ConfigProvider, Menu } from 'antd'
 import { NavLink } from 'react-router-dom'
-const customTheme = {
-  token: {
-    colorPrimary: '#013366', // Custom primary color
-    colorBgBase: '#013366', // Background color for base
-    colorText: '#038fdd', // Text color for items
-    colorTextSecondary: '#ffffff', // Secondary text color for hover and selected
-    // colorBgHover: '#444', // Background color for hover
-    colorBgSelected: '#013366' // Background color for selected
-  }
-}
 const items = [
   {
     key: '1',

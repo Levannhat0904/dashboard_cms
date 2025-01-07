@@ -3,12 +3,11 @@
 import { List } from 'antd'
 import PostListHeader from '../../molecules/MPostListHeader'
 import PostListItem from '../../molecules/MListItem'
-import { IPost } from '../../../utils/AxiosApiServiceLogin'
-
+import { IFetchPostsResponse } from '../../../utils/AxiosApiServiceLogin'
 interface PostListProps {
   loading: boolean
-  datas: any
-  onPageChange: (page: number, pageSize: number) => Promise<void>
+  datas: IFetchPostsResponse | undefined
+  onPageChange: (page: number, pageSize: number) => void
 }
 const PostList: React.FC<PostListProps> = ({ datas, loading, onPageChange }) => (
   <>

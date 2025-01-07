@@ -19,9 +19,9 @@ const ModalAddTag: React.FC<ModalAddTagProps> = ({ isModalOpen, setIsModalOpen }
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   // const [isModalOpen, setIsModalOpen] = useState(false)
-  const handleFinish = (values) => {
-    console.log('Form Submitted:', values)
-  }
+  // const handleFinish = (values) => {
+  //   console.log('Form Submitted:', values)
+  // }
   const handleOk = () => {
     setIsModalOpen(false)
   }
@@ -58,7 +58,7 @@ const ModalAddTag: React.FC<ModalAddTagProps> = ({ isModalOpen, setIsModalOpen }
           form={form}
           name='validateOnly'
           layout='vertical' // Horizontal layout
-          onFinish={handleFinish}
+          // onFinish={handleFinish}
           autoComplete='off'
         >
           {/* Name Field */}

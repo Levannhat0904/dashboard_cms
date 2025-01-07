@@ -60,7 +60,9 @@ export interface ISector {
   slug?: string
   id?: string
   isParent?: boolean
+  featureImage?: string
   iconUrl?: string
+  parent?: string
 }
 
 export interface IPostType {
@@ -124,6 +126,26 @@ export interface IApiPostResponse {
     datas: IPost[]
   }
 }
+
+export interface IApiSectorsResponse {
+  meta: {
+    status: number
+    success?: boolean
+    externalMessage: string
+    internalMessage: string
+  }
+  data: ISector[]
+}
+
+export interface IApiAssetsResponse {
+  meta: {
+    status: number
+    success?: boolean
+    externalMessage: string
+    internalMessage: string
+  }
+  data: IAsset[]
+}
 export interface IFetchPostsResponse {
   posts: {
     data: {
@@ -169,8 +191,17 @@ export interface IApiUserResponse {
     page: number
     pageSize: number
     total: number
-    datas: IPost[]
+    data: IPost[]
   }
+}
+export interface IApiAuthorResponseV2 {
+  meta: {
+    status: number
+    success?: boolean
+    externalMessage: string
+    internalMessage: string
+  }
+  data: IAuthor[]
 }
 
 // Hàm request login
@@ -194,15 +225,16 @@ export const loginWithAxios = async (data: LoginRequest): Promise<LoginResponse>
     })
     console.log('response: ', response)
     return response
-  } catch (error: any) {
+  } catch (error) {
     // Lỗi sẽ chứa toàn bộ dữ liệu lỗi từ API
     console.error('Đăng nhập thất bại:', error)
     throw error // Ném lỗi ra để React Query xử lý
   }
 }
-export const getUserInfo = async (): Promise<T> => {
+
+export const getUserInfo = async (): Promise<IApiAuthorResponseV2> => {
   try {
-    const response = await requestUserLogin<T>({
+    const response = await requestUserLogin<IApiAuthorResponseV2>({
       url: `api/v1/cms/posts/filter/authors`,
       method: 'GET',
       headers: {
@@ -212,7 +244,38 @@ export const getUserInfo = async (): Promise<T> => {
     // console.info("Thông tin bài viết:", response.data.datas);
     // console.log(response.data)
     return response
-  } catch (error: any) {
+  } catch (error) {
+    console.error('Không thể lấy thông tin bài viết:', error)
+    throw new Error('Không thể lấy thông tin bài viết. Vui lòng thử lại sau.')
+  }
+}
+export const getSectors = async (): Promise<IApiSectorsResponse> => {
+  try {
+    const response = await requestUserLogin<IApiSectorsResponse>({
+      url: `api/v1/cms/posts/filter/sectors`,
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+    return response
+  } catch (error) {
+    console.error('Không thể lấy thông tin bài viết:', error)
+    throw new Error('Không thể lấy thông tin bài viết. Vui lòng thử lại sau.')
+  }
+}
+
+export const getAssets = async (): Promise<IApiAssetsResponse> => {
+  try {
+    const response = await requestUserLogin<IApiAssetsResponse>({
+      url: `api/v1/cms/posts/filter/assets`,
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+    return response
+  } catch (error) {
     console.error('Không thể lấy thông tin bài viết:', error)
     throw new Error('Không thể lấy thông tin bài viết. Vui lòng thử lại sau.')
   }
@@ -226,7 +289,7 @@ export const fetchAuthors = async () => {
     return {
       authors: authorsResponse.data
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Lỗi khi lấy dữ liệu:', error)
     throw new Error('Không thể lấy dữ liệu. Vui lòng thử lại sau.')
   }
@@ -241,7 +304,7 @@ export const fetchPosts = async (page?: number, pageSize?: number, authors?: str
     return {
       posts: postsResponse.data
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Lỗi khi lấy dữ liệu:', error)
     return {
       posts: [],
@@ -342,7 +405,7 @@ export const addTag = async (value: ITag) => {
     throw new Error('Tải tag thất bại')
   }
 }
-export const editTag = async (id: string, newData: ITag) => {
+export const editTag = async (id: string, newData?: ITag) => {
   try {
     console.log('Request payload:', newData)
     const response = await client.put(`/api/v1/cms/tags/${id}`, newData)

@@ -1,12 +1,13 @@
 import { FormInstance } from 'antd'
 import NInputField from '../../atoms/InputField'
+import { Rule } from 'antd/es/form'
 
 interface FormInputProps {
   label: string
   name: string
-  rules?: object[]
+  rules?: Rule[]
   autoCreateSlug?: boolean
-  [key: string]: any
+  props?: Record<string, unknown>
   form?: FormInstance
 }
 

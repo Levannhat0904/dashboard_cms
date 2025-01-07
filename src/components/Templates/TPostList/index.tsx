@@ -1,23 +1,32 @@
-import React, { ChangeEvent } from 'react'
+import React from 'react'
 import ASelectAuthor from '../../atoms/ASelectAuthor'
 import PostList from '../../organisms/OPostList'
 import { Input, Layout } from 'antd'
 import { useSearchParams } from 'react-router-dom'
+import { IAsset, IAuthor, IFetchPostsResponse } from '../../../utils/AxiosApiServiceLogin'
+import ASelectAasset from '../../atoms/ASelectAasset'
 const { Search } = Input
 interface MainPageProps {
-  authors?: string[]
+  assets?: IAsset[]
   selectedAuthors: string[]
-  // handleSearchChange: () => void
+  handleSelectAssetChange: (selectedAssets: string[]) => void
+
+  authors?: IAuthor[]
+  selectedSectors: string[]
   handleSelectAuthorChange: (selectedAuthors: string[]) => void
+
   handleSearch: (s: string) => void
   handleInputSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   loading: boolean
-  datas: any
-  handleOnPageChange: (page: number, pageSize: number) => Promise<void>
+  datas: IFetchPostsResponse | undefined
+  handleOnPageChange: (page: number, pageSize: number) => void
 }
 const MainPage: React.FC<MainPageProps> = ({
+  assets,
   authors,
   selectedAuthors,
+  selectedSectors,
+  handleSelectAssetChange,
   handleSelectAuthorChange,
   // posts,
   handleSearch,
@@ -43,6 +52,7 @@ const MainPage: React.FC<MainPageProps> = ({
           enterButton
         />
         <ASelectAuthor authors={authors} selectedAuthors={selectedAuthors} onChange={handleSelectAuthorChange} />
+        <ASelectAasset assets={assets} selectedAssets={selectedSectors} onChange={handleSelectAssetChange} />
         {/* <AInputSearch /> */}
       </div>
       <PostList datas={datas} loading={loading} onPageChange={handleOnPageChange} />

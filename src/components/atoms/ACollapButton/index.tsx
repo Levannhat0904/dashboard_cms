@@ -3,7 +3,7 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 
 interface ButtonIconProps {
   collapsed: boolean
-  onToggle: () => void
+  onToggle?: () => void
 }
 
 const CollapButton: React.FC<ButtonIconProps> = ({ collapsed, onToggle }) => (

@@ -5,6 +5,7 @@ import { Form, Skeleton } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useFetchTagById, useUpdateTag } from '../../../hook/useTag'
 import NFormTag from '../../Templates/Tag/NFormTag'
+import { ITag } from '../../../utils/AxiosApiServiceLogin'
 
 const EditTag = () => {
   const [form] = Form.useForm()
@@ -46,9 +47,9 @@ const EditTag = () => {
     navigate(`/dashboard/tag`, { state: dataToSendDashboard })
   }
 
-  const handleFinish = (values) => {
+  const handleFinish = (values: ITag) => {
     console.log('Form update Submitted:', values)
-    const id = params.id
+    const id = params.id ?? ''
     // const res = editTag(id, values)
     mutate({ id: id, newData: values })
     // mutate(values)

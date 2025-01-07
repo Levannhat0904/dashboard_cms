@@ -4,7 +4,7 @@ import CollapButton from '../../atoms/ACollapButton'
 
 interface SidebarToggleProps {
   collapsed: boolean
-  onToggle: () => void
+  onToggle?: () => void
 }
 
 const SidebarToggle: React.FC<SidebarToggleProps> = ({ collapsed, onToggle }) => (

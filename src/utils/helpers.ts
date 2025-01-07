@@ -1,3 +1,4 @@
+import { Rule } from 'antd/es/form'
 import { ACCESS_TOKEN } from '../constants'
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
@@ -29,7 +30,7 @@ export function createSlug(input: string): string {
     .replace(/\s+/g, '-') // Thay khoảng trắng bằng dấu gạch ngang
     .replace(/-+/g, '-') // Loại bỏ các dấu gạch ngang thừa
 }
-export const validateSlug = (_, value) => {
+export const validateSlug = (_: Rule, value: string) => {
   if (!value) {
     return Promise.reject(new Error(''))
   }

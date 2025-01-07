@@ -3,16 +3,13 @@ import React from 'react'
 import SidebarToggle from '../MSidebarToggle'
 import { ACustomMenu } from '../../atoms'
 import { cn } from '../../../utils'
-import { Button } from 'antd'
-// import { SidebarToggle } from '../../molecules'
-import { LogoutOutlined } from '@ant-design/icons'
 interface SidebarProps {
   collapsed: boolean
   open?: boolean
   className?: string
   // handleLogout?: () => void
-  toggleDrawer: () => void
-  toggleCollapse: () => void
+  toggleDrawer?: () => void
+  toggleCollapse?: () => void
 }
 const index: React.FC<SidebarProps> = ({ collapsed, toggleCollapse, className }) => {
   return (

@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useMemo } from 'react'
 import { AudioOutlined } from '@ant-design/icons'
-import { Input, Space, message } from 'antd'
+import { Input, Space } from 'antd'
 import { debounce } from 'lodash'
 
 type SearchProps = {
@@ -21,10 +21,18 @@ const suffix = (
 const InputSearchTest: React.FC<SearchProps> = ({ handleSearch }) => {
   const [valueInput, setValueInput] = useState<string>('')
 
-  const debouncedSearch = useCallback(
-    debounce(async (value: string) => {
-      handleSearch(value)
-    }, 500),
+  // const debouncedSearch = useCallback(
+  //   debounce(async (value: string) => {
+  //     handleSearch(value)
+  //   }, 500),
+  //   [handleSearch]
+  // )
+
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        handleSearch(value)
+      }, 500),
     [handleSearch]
   )
   return (

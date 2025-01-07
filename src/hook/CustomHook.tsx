@@ -1,9 +1,14 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { fetchPosts, FetchPostsParams, fetchPostsV2, IFetchPostsResponse } from '../utils/AxiosApiServiceLogin'
 
-export const usePosts = (page?: number, pageSize?: number, authors?: string[]): UseQueryResult<IFetchPostsResponse> => {
+export const usePosts = (
+  page?: number,
+  pageSize?: number,
+  authors?: string[],
+  assets?: string[]
+): UseQueryResult<IFetchPostsResponse> => {
   return useQuery({
-    queryKey: ['postsWithAuthors', page, pageSize, authors],
+    queryKey: ['postsWithAuthors', page, pageSize, authors, assets],
     queryFn: () => fetchPosts(page, pageSize, authors),
     staleTime: 5 * 60 * 1000, // 5 phút
     gcTime: 10 * 60 * 1000 // 10 phút

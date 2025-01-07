@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Upload, UploadFile } from 'antd'
+import { Form, FormInstance, Upload, UploadFile } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useUploadImage } from '../../../hook/useUploadImage'
+import { ITag } from '../../../utils/AxiosApiServiceLogin'
+
 interface InputImgProps {
   name: string
   label: string
-  form: any
-  initialValues?: any
-  setUploading: any
+  form: FormInstance
+  initialValues?: ITag
+  setUploading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const NInputImg: React.FC<InputImgProps> = ({ name, label, initialValues, form, setUploading }) => {
@@ -15,7 +17,7 @@ const NInputImg: React.FC<InputImgProps> = ({ name, label, initialValues, form, 
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const { mutate, isPending, isError, isSuccess, error, data } = useUploadImage()
   // Xử lý khi thay đổi file (upload)
-  const handleChange = ({ fileList: newFileList }) => {
+  const handleChange = ({ fileList: newFileList }: { fileList: UploadFile[] }) => {
     setFileList(newFileList)
     const file = newFileList[newFileList.length - 1]?.originFileObj
     if (file) {
@@ -30,7 +32,7 @@ const NInputImg: React.FC<InputImgProps> = ({ name, label, initialValues, form, 
           status: 'done', // Trạng thái là 'done' khi đã có ảnh
           url: initialValues.featureImage // URL ảnh từ initialValues
         }
-      ] as UploadFile<any>[])
+      ] as UploadFile<UploadFile>[])
     : []
   useEffect(() => {
     setFileList(defaultFileList)

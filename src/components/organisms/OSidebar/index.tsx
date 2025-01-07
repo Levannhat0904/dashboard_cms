@@ -1,6 +1,5 @@
 import { Drawer } from 'antd'
 import { SiderNav } from '../../molecules'
-import { removeAccessToken } from '../../../utils'
 interface SidebarProps {
   collapsed: boolean
   open: boolean

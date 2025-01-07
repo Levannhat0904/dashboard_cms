@@ -1,19 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // src/components/organisms/SignInForm.tsx
 import React, { useRef, useState } from 'react'
 import { Form, message } from 'antd'
-import { useAuthContext } from '../../../contexts/AuthContext'
 import { AInput, ACheckbox, AButton } from '../../atoms'
 import { ASocialLogin } from '../../atoms'
 import { useMutation } from '@tanstack/react-query'
-import { LoginRequest, loginWithAxios } from '../../../utils/AxiosApiServiceLogin'
-import { Button, notification } from 'antd'
+import { LoginRequest, LoginResponse, loginWithAxios } from '../../../utils/AxiosApiServiceLogin'
+import { notification } from 'antd'
 // import LoginContent from '../../atoms/LoginContent'
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 const OSignInForm: React.FC = () => {
   const [api, contextHolder] = notification.useNotification()
   const [loading, setLoading] = useState(false)
-  const [checked, setChecked] = useState(true)
   const openNotificationWithIcon = (type: NotificationType, message: string, description: string) => {
     api[type]({
       message: message,
@@ -35,7 +32,7 @@ const OSignInForm: React.FC = () => {
       openNotificationWithIcon('success', 'Đăng nhập thành công', 'Đăng nhập thành công')
       window.location.href = '/dashboard' // Chuyển hướng sau khi đăng nhập thành công
     },
-    onError: (error: any) => {
+    onError: (error: LoginResponse) => {
       setLoading(false)
       // In lỗi và hiển thị thông báo lỗi
       console.log('Login error: ', error)

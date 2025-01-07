@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { loginWithAxios, LoginRequest } from '../../../utils/AxiosApiServiceLogin'
+import { loginWithAxios, LoginRequest, LoginResponse } from '../../../utils/AxiosApiServiceLogin'
 import { Button, notification } from 'antd'
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 const TestLogin: React.FC = () => {
@@ -46,7 +46,7 @@ const TestLogin: React.FC = () => {
       console.log('Đăng nhập thành công:', data.data.accessToken)
       openNotificationWithIcon('success', 'Đăng nhập thành công', 'Đăng nhập thành công')
     },
-    onError: (error: any) => {
+    onError: (error: LoginResponse) => {
       console.log('errsador: ', error.meta.internalMessage)
       openNotificationWithIcon('error', 'Error', error.meta.internalMessage)
       console.error('Login failed:', error) // In lỗi ra console để debug

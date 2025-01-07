@@ -47,7 +47,7 @@
 // export default UserAvatarTooltip
 import React from 'react'
 import { UserOutlined } from '@ant-design/icons'
-import { Avatar, Divider, Tooltip } from 'antd'
+import { Avatar, Tooltip } from 'antd'
 import { IAuthor } from '../../../utils/AxiosApiServiceLogin'
 
 // Component để hiển thị một avatar với thông tin chi tiết khi hover

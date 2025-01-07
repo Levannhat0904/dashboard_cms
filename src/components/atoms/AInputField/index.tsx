@@ -1,13 +1,14 @@
 import React, { forwardRef } from 'react'
 import { Input as AntInput, InputRef } from 'antd'
 import { cn } from '../../../utils'
+import { SizeType } from 'antd/es/config-provider/SizeContext'
 
 interface InputProps {
   placeholder?: string
   type?: 'text' | 'password' | 'email' | 'textarea'
   value?: string
   className?: string
-  size?: string | undefined
+  size?: SizeType
   onChange?: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
 }
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useMemo, useCallback } from 'react'
+import { useCallback } from 'react'
 
 interface Meta {
   page: number
