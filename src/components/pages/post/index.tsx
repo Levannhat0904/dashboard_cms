@@ -1,70 +1,48 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { useSelectedAuthors } from '../../../contexts/SelectedAuthorsContext'
 import { useAuthors } from '../../../contexts/AuthorsContext'
 import { usePostsV2 } from '../../../hook/CustomHook'
 import { usePaginationV2 } from '../../../hook/usePagination'
 import MainPage from '../../Templates/TPostList'
 import useDebouncedSearch from '../../../hook/useDebouncedSearch'
 import useQueryParamUrl from '../../../hook/useQueryParamUrl'
+import useParams from '../../../hook/useParams'
 
 const PPost: React.FC = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const { authors, sectors, assets } = useAuthors()
-  // const [selectedAssets, setSelectedAssets] = useQueryParamUrl<string[]>('assets', [])
-  // const [selectedAuthors, setSelectedAuthors] = useQueryParamUrl<string[]>('authors', [])
-  // const { selectedAuthors, setSelectedAuthors } = useSelectedAuthors()
+  const [, setSearchParams] = useSearchParams()
+  const { authors, assets } = useAuthors()
+
+  // Sử dụng hook để quản lý các tham số URL
   const [queryParams, updateQueryParams] = useQueryParamUrl({
     assets: [],
     authors: []
   })
-  // Lấy dữ liệu từ searchParams
-  const page = parseInt(searchParams.get('page') || '1', 10)
-  const pageSize = parseInt(searchParams.get('pageSize') || '10', 10)
-  const s = searchParams.get('s') || ''
-  console.log(page)
-  // const assets = searchParams.get('assets') || ''
+  const { page, pageSize, s } = useParams()
+
   // API call với searchParams
   const { data, isLoading } = usePostsV2({
     page,
     pageSize,
     s,
-    authors: selectedAuthors,
-    assets: selectedAssets
+    authors: queryParams.authors, // Lấy selected authors từ queryParams
+    assets: queryParams.assets // Lấy selected assets từ queryParams
   })
 
-  // Khôi phục trạng thái selectedAuthors từ URL
-  useEffect(() => {
-    const authorsFromUrl = searchParams.getAll('authors')
-    if (authorsFromUrl.length > 0) {
-      setSelectedAuthors(authorsFromUrl)
-    }
-  }, [searchParams, setSelectedAuthors])
-
   const { handleOnPageChange } = usePaginationV2()
-  // Hàm xử lý khi thay đổi tác giả được chọn
-  const handleSelectAuthorChange = (selectedAuthors: string[]) => {
-    console.log('selectedAuthors: ', selectedAuthors)
-    setSelectedAuthors(selectedAuthors)
 
-    // setSearchParams({
-    //   page: '1',
-    //   pageSize: pageSize.toString(),
-    //   authors: selectedAuthors,
-    //   s
-    // })
-  }
-  const handleSelectAssetsChange = (assets: string[]) => {
-    setSelectedAssets(assets)
+  // Hàm xử lý khi thay đổi tác giả hoặc tài sản được chọn
+  const handleSelectChange = (key: 'authors' | 'assets', selectedValues: string[]) => {
+    updateQueryParams(key, selectedValues) // Cập nhật giá trị trong URL
   }
 
   // Hàm xử lý tìm kiếm
   const handleSearch = (s: string) => {
     setSearchParams({
-      page: '1',
+      page: '1', // Reset trang về 1 khi tìm kiếm
       pageSize: pageSize.toString(),
-      authors: selectedAuthors,
-      s
+      s,
+      authors: queryParams.authors.join(','), // Chuyển authors thành chuỗi và lưu trong URL
+      assets: queryParams.assets.join(',') // Chuyển assets thành chuỗi và lưu trong URL
     })
   }
 
@@ -72,37 +50,21 @@ const PPost: React.FC = () => {
     delay: 1000,
     defaultPageSize: 10
   })
-  console.log('assets: ', assets)
 
-  // const filterData = [
-  //   {
-  //     type:"select",
-  //     name:"authors",
-  //     label:"Authors",
-  //     options: [],
-  //   },
-  //   {
-  //     type:"select",
-  //     name:"assets",
-  //     label:"Assets",
-  //     options: [],
-  //   }
-  // ]
   return (
     <MainPage
-      // filter authors
+      // Filter authors
       authors={authors}
-      selectedAuthors={selectedAuthors}
-      handleSelectAuthorChange={handleSelectAuthorChange}
-      // filter assets
+      selectedAuthors={queryParams.authors} // Lấy selected authors từ queryParams
+      handleSelectAuthorChange={(selectedAuthors: string[]) => handleSelectChange('authors', selectedAuthors)}
+      // Filter assets
       assets={assets}
-      selectedSectors={selectedAssets}
-      handleSelectAssetChange={handleSelectAssetsChange}
+      selectedAssets={queryParams.assets} // Lấy selected assets từ queryParams
+      handleSelectAssetChange={(selectedAssets: string[]) => handleSelectChange('assets', selectedAssets)}
       // Search
       handleInputSearchChange={handleInputSearchChange}
       handleSearch={handleSearch}
-      // selectedSectors={selectedSectors}
-      // handleSelectSectorChange={handleSelectSectorChange}
+      // Data
       datas={data}
       loading={isLoading}
       handleOnPageChange={handleOnPageChange}

@@ -12,7 +12,7 @@ interface MainPageProps {
   handleSelectAssetChange: (selectedAssets: string[]) => void
 
   authors?: IAuthor[]
-  selectedSectors: string[]
+  selectedAssets: string[]
   handleSelectAuthorChange: (selectedAuthors: string[]) => void
 
   handleSearch: (s: string) => void
@@ -25,7 +25,7 @@ const MainPage: React.FC<MainPageProps> = ({
   assets,
   authors,
   selectedAuthors,
-  selectedSectors,
+  selectedAssets,
   handleSelectAssetChange,
   handleSelectAuthorChange,
   // posts,
@@ -52,7 +52,7 @@ const MainPage: React.FC<MainPageProps> = ({
           enterButton
         />
         <ASelectAuthor authors={authors} selectedAuthors={selectedAuthors} onChange={handleSelectAuthorChange} />
-        <ASelectAasset assets={assets} selectedAssets={selectedSectors} onChange={handleSelectAssetChange} />
+        <ASelectAasset assets={assets} selectedAssets={selectedAssets} onChange={handleSelectAssetChange} />
         {/* <AInputSearch /> */}
       </div>
       <PostList datas={datas} loading={loading} onPageChange={handleOnPageChange} />

@@ -81,48 +81,63 @@ function useQueryParamUrl<T extends Record<string, string[]>>(
       }
     })
 
-    setQueryParams(newQueryParams as T)
-  }, [initialState])
+    // Cập nhật queryParams chỉ khi nó thay đổi
+    if (JSON.stringify(newQueryParams) !== JSON.stringify(queryParams)) {
+      setQueryParams(newQueryParams as T)
+    }
+  }, [initialState, queryParams])
 
   // Hàm cập nhật state và URL
   const updateQueryParams = useCallback(
     (key: keyof T, newState: string[]) => {
-      setQueryParams((prev) => ({
-        ...prev,
-        [key]: newState,
-      }))
+      setQueryParams((prev) => {
+        if (prev[key] !== newState) {
+          return { ...prev, [key]: newState }
+        }
+        return prev
+      })
 
       const urlParams = new URLSearchParams(window.location.search)
 
-      // Loại bỏ các giá trị cũ
       urlParams.delete(key as string)
 
       if (newState.length > 0) {
-        // Loại bỏ các giá trị trùng lặp trước khi cập nhật
         const uniqueValues = Array.from(new Set(newState))
-
-        // Thêm các giá trị mới vào URL
         uniqueValues.forEach((value) => urlParams.append(key as string, value))
       }
 
-      // Đặt lại page=1 và pageSize=10
       urlParams.set('page', '1')
       urlParams.set('pageSize', '10')
 
-      // Loại bỏ các tham số trống
+      setSearchParams({ page: '1', pageSize: '10' })
+
       Array.from(urlParams.entries()).forEach(([paramKey, paramValue]) => {
         if (!paramValue || paramValue === 'undefined') {
           urlParams.delete(paramKey)
         }
       })
 
-      // Thay đổi URL mà không reload trang
       window.history.replaceState({}, '', `${window.location.pathname}?${urlParams.toString()}`)
     },
-    [initialState]
+    [setSearchParams] // Tránh re-renders không cần thiết do thay đổi trong `queryParams`
   )
 
   return [queryParams, updateQueryParams]
 }
 
 export default useQueryParamUrl
+
+// const filterData = [
+//   {
+//     type: "select",
+//     name: "authors",
+//     label: "Authors",
+//     options: [],
+//   },
+//   {
+//     type: "select",
+//     name: "assets",
+//     label: "Assets",
+//     options: [],
+//   }
+// ]

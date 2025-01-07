@@ -317,6 +317,7 @@ export interface FetchPostsParams {
   pageSize?: number
   authors?: string[]
   s?: string
+  assets?: string[]
 }
 export const fetchPostsV2 = async (params: FetchPostsParams) => {
   try {
