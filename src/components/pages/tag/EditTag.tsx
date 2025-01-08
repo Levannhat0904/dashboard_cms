@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useFetchTagById, useUpdateTag } from '../../../hook/useTag'
 import NFormTag from '../../Templates/Tag/NFormTag'
 import { ITag } from '../../../utils/AxiosApiServiceLogin'
+import useLeavePageConfirm from '../../../hook/usePreventNavigation'
 
 const EditTag = () => {
   const [form] = Form.useForm()
@@ -14,7 +15,8 @@ const EditTag = () => {
   const { isSuccess, isPending, data, mutate } = useUpdateTag()
   const params = useParams()
   const { mutate: FetchTagById } = useFetchTagById()
-
+  // const [evenEdit, setEvenEdit] = useState(false)
+  // useLeavePageConfirm({ hasUnsavedChanges: evenEdit })
   // Lấy dữ liệu từ API khi component mount
   useEffect(() => {
     if (params.id) {
@@ -76,6 +78,8 @@ const EditTag = () => {
       form={form}
       handleFinish={handleFinish}
       isPending={isPending}
+      // evenEdit={evenEdit}
+      // setEvenEdit={setEvenEdit}
     />
   )
 }

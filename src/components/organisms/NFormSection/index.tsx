@@ -4,8 +4,10 @@ import NInputImg from '../../atoms/NInputImg'
 import NFormButtons from '../../molecules/NFormButtons'
 import { validateSlug } from '../../../utils'
 import NFormSEO from '../../molecules/NFormSEO'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ITag } from '../../../utils/AxiosApiServiceLogin'
+import NNotify from '../../atoms/NNotify'
+import { useEvenEdit } from '../../../contexts/EventContext'
 
 interface FormSectionProps {
   initialValues: ITag | undefined
@@ -13,16 +15,32 @@ interface FormSectionProps {
   handleFinish: (values: object) => void
   isPending: boolean
   autoCreateSlug?: boolean
+  // evenEdit: any
+  // setEvenEdit: any
 }
 
-const NFormSection: React.FC<FormSectionProps> = ({ initialValues, form, handleFinish, isPending, autoCreateSlug }) => {
+const NFormSection: React.FC<FormSectionProps> = ({
+  initialValues,
+  form,
+  handleFinish,
+  isPending,
+  autoCreateSlug
+  // evenEdit,
+  // setEvenEdit
+}) => {
   const [uploading, setUploading] = useState(false)
+  const { evenEdit, setEvenEdit } = useEvenEdit()
+  const handleChange = () => {
+    setEvenEdit(true)
+  }
+
   return (
     <Layout className='mx-8 my-8'>
       <Form
         initialValues={initialValues}
         form={form}
         name='validateOnly'
+        onChange={handleChange}
         layout='vertical'
         onFinish={handleFinish}
         autoComplete='off'
@@ -47,6 +65,7 @@ const NFormSection: React.FC<FormSectionProps> = ({ initialValues, form, handleF
         />
         <NFormSEO />
         <NFormButtons isPending={isPending || uploading} />
+        {/* <NNotify setEvenEdit={setEvenEdit} evenEdit={evenEdit} /> */}
       </Form>
     </Layout>
   )

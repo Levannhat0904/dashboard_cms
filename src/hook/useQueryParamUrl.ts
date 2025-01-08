@@ -45,10 +45,10 @@ function useQueryParamUrl<T extends Record<string, string[]>>(
         uniqueValues.forEach((value) => urlParams.append(key as string, value))
       }
 
+      setSearchParams({ page: '1', pageSize: '10', s: s })
       urlParams.set('page', '1')
       urlParams.set('pageSize', '10')
       urlParams.set('s', s)
-      setSearchParams({ page: '1', pageSize: '10', s: s })
 
       Array.from(urlParams.entries()).forEach(([paramKey, paramValue]) => {
         if (!paramValue || paramValue === 'undefined') {
@@ -65,18 +65,3 @@ function useQueryParamUrl<T extends Record<string, string[]>>(
 }
 
 export default useQueryParamUrl
-
-// const filterData = [
-//   {
-//     type: "select",
-//     name: "authors",
-//     label: "Authors",
-//     options: [],
-//   },
-//   {
-//     type: "select",
-//     name: "assets",
-//     label: "Assets",
-//     options: [],
-//   }
-// ]

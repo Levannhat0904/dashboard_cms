@@ -7,7 +7,6 @@ const useParams = () => {
   const page = parseInt(searchParams.get('page') || '1', 10)
   const pageSize = parseInt(searchParams.get('pageSize') || '10', 10)
   const s = searchParams.get('s') || ''
-
   return { page, pageSize, s }
 }
 

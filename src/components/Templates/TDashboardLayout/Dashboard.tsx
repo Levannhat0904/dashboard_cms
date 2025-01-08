@@ -5,6 +5,7 @@ import { MContent, MFooter, MHeader } from '../../molecules'
 const DashboardLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [open, setOpen] = useState(false) // Quản lý trạng thái Drawer
+
   const toggleCollapse = () => {
     setCollapsed(!collapsed)
   }

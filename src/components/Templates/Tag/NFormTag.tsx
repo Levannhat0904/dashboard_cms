@@ -2,6 +2,8 @@ import { App, Breadcrumb, FormInstance, Layout } from 'antd'
 import { Link } from 'react-router-dom'
 import NFormSection from '../../organisms/NFormSection'
 import { ITag } from '../../../utils/AxiosApiServiceLogin'
+import NNotify from '../../atoms/NNotify'
+import usePreventNavigation from '../../../hook/usePreventNavigation'
 
 interface PageTemplateProps {
   dataReceived?: ITag
@@ -10,6 +12,8 @@ interface PageTemplateProps {
   handleFinish: (values: object) => void
   isPending: boolean
   autoCreateSlug?: boolean
+  // evenEdit: any
+  // setEvenEdit: any
 }
 
 const NFormTag: React.FC<PageTemplateProps> = ({
@@ -19,26 +23,34 @@ const NFormTag: React.FC<PageTemplateProps> = ({
   form,
   handleFinish,
   isPending
-}) => (
-  <Layout>
-    <Breadcrumb
-      className='my-2 mx-2'
-      items={[{ title: <Link to='/dashboard/tag'>Tag</Link> }, { title: dataReceived?.name }]}
-    />
-    {/* {dataReceived ? ( */}
-    <App>
-      <NFormSection
-        autoCreateSlug={autoCreateSlug}
-        initialValues={initialValues}
-        form={form}
-        handleFinish={handleFinish}
-        isPending={isPending}
+  // evenEdit,
+  // setEvenEdit
+}) => {
+  // const { evenEdit, setEvenEdit } = useEvenEdit()
+  // const handleNavigate = usePreventNavigation(evenEdit)
+  return (
+    <Layout>
+      <Breadcrumb
+        className='my-2 mx-2'
+        items={[{ title: <Link to='/dashboard/tag'>Tag</Link> }, { title: dataReceived?.name }]}
       />
-    </App>
-    {/* ) : (
+      {/* {dataReceived ? ( */}
+      <App>
+        <NFormSection
+          autoCreateSlug={autoCreateSlug}
+          initialValues={initialValues}
+          form={form}
+          handleFinish={handleFinish}
+          isPending={isPending}
+          // evenEdit={evenEdit}
+          // setEvenEdit={setEvenEdit}
+        />
+      </App>
+      {/* ) : (
       <p>No data received.</p>
     )} */}
-  </Layout>
-)
+    </Layout>
+  )
+}
 
 export default NFormTag

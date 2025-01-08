@@ -13,7 +13,6 @@ const NInputField: React.FC<InputFieldProps> = ({ label, name, rules, autoCreate
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (autoCreateSlug && name === 'name') {
       const nameValue = e.target.value
-      console.log('dsad')
       const slug = createSlug(nameValue) // Tạo slug từ giá trị name
       form?.setFieldsValue({ slug }) // Cập nhật slug vào form
     }
