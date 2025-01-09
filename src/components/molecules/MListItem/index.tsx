@@ -3,8 +3,8 @@ import { Layout, List } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import UserAvatarTooltip from '../../atoms/UserAvatar'
 import Tags from '../../atoms/Tags'
-import { IPost } from '../../../utils/AxiosApiServiceLogin'
 import AView from '../../atoms/AView'
+import { IPost } from '../../../interfaces'
 // Định nghĩa kiểu cho item
 interface PostListItemProps {
   item: IPost

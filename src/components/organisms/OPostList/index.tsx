@@ -3,7 +3,7 @@
 import { List } from 'antd'
 import PostListHeader from '../../molecules/MPostListHeader'
 import PostListItem from '../../molecules/MListItem'
-import { IFetchPostsResponse } from '../../../utils/AxiosApiServiceLogin'
+import { IFetchPostsResponse } from '../../../interfaces'
 interface PostListProps {
   loading: boolean
   datas: IFetchPostsResponse | undefined
@@ -12,7 +12,6 @@ interface PostListProps {
 const PostList: React.FC<PostListProps> = ({ datas, loading, onPageChange }) => (
   <>
     <PostListHeader />
-    {console.log('datas: ', datas?.posts.data)}
 
     <List
       className='z-10'

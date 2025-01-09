@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAuthors } from '../../../contexts/AuthorsContext'
 import { usePostsV2 } from '../../../hook/CustomHook'
@@ -7,7 +7,7 @@ import MainPage from '../../Templates/TPostList'
 import useDebouncedSearch from '../../../hook/useDebouncedSearch'
 import useQueryParamUrl from '../../../hook/useQueryParamUrl'
 import useParams from '../../../hook/useParams'
-import { IAsset, IAuthor } from '../../../utils/AxiosApiServiceLogin'
+import { IAsset, IAuthor } from '../../../interfaces'
 export type FilterOption = {
   type: 'select' | 'input' // Thêm 'input' vào 'type'
   name: string

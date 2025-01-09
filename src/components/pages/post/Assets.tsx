@@ -1,7 +1,7 @@
 import React from 'react'
 import { UserOutlined } from '@ant-design/icons'
 import { Avatar, Tooltip } from 'antd'
-import { IAsset, IAuthor } from '../../../utils/AxiosApiServiceLogin'
+import { IAsset, IAuthor } from '../../../interfaces'
 
 // Component để hiển thị một avatar với thông tin chi tiết khi hover
 const AssetAvatarDetail: React.FC<{ asset: IAsset }> = ({ asset }) => {

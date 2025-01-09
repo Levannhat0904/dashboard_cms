@@ -1,8 +1,8 @@
 import React from 'react'
 import PostList from '../../organisms/OPostList'
 import { Flex, Layout } from 'antd'
-import { IAsset, IAuthor, IFetchPostsResponse } from '../../../utils/AxiosApiServiceLogin'
 import Filter from './Filter'
+import { IFetchPostsResponse } from '../../../interfaces'
 interface MainPageProps {
   // handleSearch: (s: string) => void
   loading: boolean

@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { getAssets, getSectors, getUserInfo, IAsset, IAuthor, ISector } from '../utils/AxiosApiServiceLogin'
+import { IAsset, IAuthor, ISector } from '../interfaces'
+import { getSectors } from '../api/sector'
+import { getUserInfo } from '../api/author'
+import { getAssets } from '../api/asset'
 
 // Định nghĩa type cho context
 interface AuthorsContextType {
@@ -25,7 +28,6 @@ export const AuthorsProvider = ({ children }: { children: ReactNode }) => {
     try {
       // const response = await getPostsByAuthor() // Giả sử đây là API lấy danh sách tác giả
       const response = await getSectors() // Giả sử đây là API lấy danh sách tác giả
-      console.log(response)
       setSectors(response.data)
     } catch (error) {
       console.error('Lỗi khi lấy sector:', error)
@@ -36,7 +38,6 @@ export const AuthorsProvider = ({ children }: { children: ReactNode }) => {
     try {
       // const response = await getPostsByAuthor() // Giả sử đây là API lấy danh sách tác giả
       const response = await getUserInfo() // Giả sử đây là API lấy danh sách tác giả
-      console.log(response)
       setAuthors(response.data)
     } catch (error) {
       console.error('Lỗi khi lấy dữ liệu tác giả:', error)
@@ -45,13 +46,11 @@ export const AuthorsProvider = ({ children }: { children: ReactNode }) => {
   const fetchAssets = async () => {
     try {
       const response = await getAssets()
-      console.log(response)
       setAssets(response.data)
     } catch (error) {
       console.error('Lỗi khi lấy dữ liệu assets:', error)
     }
   }
-  // console.log('>>>>>>>>>>Post: ', authors)
   // Gọi hàm fetchAuthors khi component được mount
   useEffect(() => {
     fetchAuthors()

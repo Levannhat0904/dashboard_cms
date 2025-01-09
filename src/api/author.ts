@@ -1,7 +1,7 @@
-import { IAuthor } from "../interfaces/author/author.interface"
-import { getAccessToken } from "../utils"
-import client from "./client"
-import { requestUserLogin } from "./login"
+import { IAuthor } from '../interfaces/author/author.interface'
+import { getAccessToken } from '../utils'
+import client from './client'
+import { requestUserLogin } from './login'
 const accessToken = getAccessToken()
 export interface IApiAuthorResponseV2 {
   meta: {

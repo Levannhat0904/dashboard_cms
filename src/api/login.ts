@@ -1,7 +1,7 @@
-import { AxiosRequestConfig, AxiosResponse } from "axios"
-import client from "./client"
-import { IMeta } from "../interfaces/common.interface"
-import { ILoginRequest, ILoginResponse } from "../interfaces/login/login.interface"
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
+import client from './client'
+import { IMeta } from '../interfaces/common.interface'
+import { ILoginRequest, ILoginResponse } from '../interfaces/login/login.interface'
 export interface ErrorResponse {
   meta: IMeta
 }
@@ -28,7 +28,6 @@ export const loginWithAxios = async (data: ILoginRequest): Promise<ILoginRespons
     })
     return response
   } catch (error) {
-    // Lỗi sẽ chứa toàn bộ dữ liệu lỗi từ API
     console.error('Đăng nhập thất bại:', error)
     throw error // Ném lỗi ra để React Query xử lý
   }

@@ -1,7 +1,7 @@
 // components/atoms/SelectAuthor.tsx
 import { Avatar, Select, Tooltip } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import { IAsset } from '../../../utils/AxiosApiServiceLogin'
+import { IAsset } from '../../../interfaces'
 interface ASelectAuthorProps {
   assets: IAsset[] | undefined // Mảng chứa danh sách các tác giả
   selectedAssets: string[] // Mảng chứa ID của các tác giả đã được chọn

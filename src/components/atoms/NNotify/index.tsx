@@ -4,7 +4,7 @@ import { useEvenEdit } from '../../../contexts/EventContext' // Giả sử bạn
 import { useNavigate } from 'react-router-dom'
 
 const close = () => {
-  console.log('Notification was closed. Either the close button was clicked or duration time elapsed.')
+  // console.log('Notification was closed. Either the close button was clicked or duration time elapsed.')
 }
 
 const NNotify: React.FC = () => {

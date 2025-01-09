@@ -10,11 +10,8 @@ const DashboardLayout: React.FC = () => {
     setCollapsed(!collapsed)
   }
   const toggleDrawer = () => {
-    console.log('Drawer trạng thái trước:', open)
     setOpen(!open) // Đổi trạng thái Drawer
-    console.log('Drawer trạng thái sau:', !open)
   }
-  // console.log(location.pathname)
   return (
     <Layout style={{ minHeight: '100vh', minWidth: '100vw' }}>
       <Sidebar collapsed={collapsed} open={open} toggleDrawer={toggleDrawer} toggleCollapse={toggleCollapse} />

@@ -1,8 +1,8 @@
-import { ITag } from "../tag/tag.interface"
-import { ISector } from '../sector/sector.interface';
-import { IAuthor } from "../author/author.interface";
-import { IAsset } from "../asset/asset.interface";
-import { IPostType } from "../postType/postType.interface";
+import { ITag } from '../tag/tag.interface'
+import { ISector } from '../sector/sector.interface'
+import { IAuthor } from '../author/author.interface'
+import { IAsset } from '../asset/asset.interface'
+import { IPostType } from '../postType/postType.interface'
 
 export interface IPost {
   id?: string
@@ -71,7 +71,7 @@ export interface IApiUserResponse {
     data: IPost[]
   }
 }
-export interface FetchPostsParams {
+export interface IFetchPostsParams {
   page?: number
   pageSize?: number
   authors?: string[]

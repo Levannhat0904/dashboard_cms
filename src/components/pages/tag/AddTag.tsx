@@ -16,15 +16,10 @@ const AddTag = () => {
     navigate(`/dashboard/tag/edit/${data?.data.data.id}`, { state: dataToSend })
   }
   const handleFinish = (values: object) => {
-    // console.log('Form Submitted:', values)
     mutate(values)
-    if (isSuccess) {
-      console.log('thêm thành công')
-    }
   }
   useEffect(() => {
     if (isSuccess) {
-      console.log('thêm thành công', data)
       handleNavigate()
     }
   })

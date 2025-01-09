@@ -20,9 +20,8 @@ interface EvenEditProviderProps {
 export const EvenEditProvider: React.FC<EvenEditProviderProps> = ({ children }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isOpenNotify, setIsOpenNotify] = useState<boolean>(false)
-  const [path, setPath] = useState<boolean>(false)
+  const [path, setPath] = useState<string>('')
 
-  console.log(isEdit)
   return (
     <EvenEditContext.Provider value={{ path, setPath, isOpenNotify, setIsOpenNotify, isEdit, setIsEdit }}>
       {children}

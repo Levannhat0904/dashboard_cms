@@ -5,16 +5,16 @@ import { Form, Skeleton } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { useFetchTagById, useUpdateTag } from '../../../hook/useTag'
 import NFormTag from '../../Templates/Tag/NFormTag'
-import { ITag } from '../../../utils/AxiosApiServiceLogin'
+import { ITag } from '../../../interfaces'
+import { useEvenEdit } from '../../../contexts/EventContext'
 
 const EditTag = () => {
   const [form] = Form.useForm()
-
+  const { setIsEdit } = useEvenEdit() // Lấy dữ liệu từ context
   const [dataReceived, setDataReceived] = useState(null)
   const { isSuccess, isPending, data, mutate } = useUpdateTag()
   const params = useParams()
   const { mutate: FetchTagById } = useFetchTagById()
-  // const [evenEdit, setEvenEdit] = useState(false)
   // useLeavePageConfirm({ hasUnsavedChanges: evenEdit })
   // Lấy dữ liệu từ API khi component mount
   useEffect(() => {
@@ -23,7 +23,6 @@ const EditTag = () => {
         { id: params.id },
         {
           onSuccess: (response) => {
-            console.log('Dữ liệu tag:', response.data.data)
             setDataReceived(response.data.data)
           },
           onError: (error) => {
@@ -39,7 +38,6 @@ const EditTag = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log('Cập nhật thành công', data)
       handleNavigate()
     }
   }, [isSuccess, data]) // Chạy khi `isSuccess` hoặc `data` thay đổi
@@ -49,14 +47,11 @@ const EditTag = () => {
   }
 
   const handleFinish = (values: ITag) => {
-    console.log('Form update Submitted:', values)
     const id = params.id ?? ''
     // const res = editTag(id, values)
     mutate({ id: id, newData: values })
+    setIsEdit(false)
     // mutate(values)
-    if (isSuccess) {
-      console.log('cập nhật thành công')
-    }
   }
 
   const initialValues = dataReceived || {}

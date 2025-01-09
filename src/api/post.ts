@@ -1,6 +1,6 @@
-import axios from "axios"
-import client from "./client"
-import { FetchPostsParams, IFetchPostsResponse } from "../interfaces"
+import axios from 'axios'
+import client from './client'
+import { IFetchPostsParams, IFetchPostsResponse } from '../interfaces'
 
 export const fetchPosts = async (page?: number, pageSize?: number, authors?: string[]) => {
   try {
@@ -20,14 +20,13 @@ export const fetchPosts = async (page?: number, pageSize?: number, authors?: str
     }
   }
 }
-export const fetchPostsV2 = async (params: FetchPostsParams) => {
+export const fetchPostsV2 = async (params: IFetchPostsParams) => {
   try {
     // Lấy danh sách bài viết
     const postsResponse = await client.get<IFetchPostsResponse>('api/v1/cms/posts', {
       params
     })
     // Trả về dữ liệu gộp
-    console.log('check data: ', postsResponse.data)
     return {
       posts: postsResponse.data
     }

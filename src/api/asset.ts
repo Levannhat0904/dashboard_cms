@@ -1,6 +1,6 @@
-import { IApiAssetsResponse } from "../interfaces/asset/asset.interface"
-import { getAccessToken } from "../utils"
-import { requestUserLogin } from "./login"
+import { IApiAssetsResponse } from '../interfaces/asset/asset.interface'
+import { getAccessToken } from '../utils'
+import { requestUserLogin } from './login'
 const accessToken = getAccessToken()
 export const getAssets = async (): Promise<IApiAssetsResponse> => {
   try {

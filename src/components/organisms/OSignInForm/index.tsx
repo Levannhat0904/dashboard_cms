@@ -4,8 +4,9 @@ import { Form, message } from 'antd'
 import { AInput, ACheckbox, AButton } from '../../atoms'
 import { ASocialLogin } from '../../atoms'
 import { useMutation } from '@tanstack/react-query'
-import { LoginRequest, LoginResponse, loginWithAxios } from '../../../utils/AxiosApiServiceLogin'
 import { notification } from 'antd'
+import { ILoginRequest, ILoginResponse } from '../../../interfaces'
+import { loginWithAxios } from '../../../api/login'
 // import LoginContent from '../../atoms/LoginContent'
 type NotificationType = 'success' | 'info' | 'warning' | 'error'
 const OSignInForm: React.FC = () => {
@@ -23,19 +24,16 @@ const OSignInForm: React.FC = () => {
     mutation.mutate(values)
   }
   const mutation = useMutation({
-    mutationFn: (data: LoginRequest) => loginWithAxios(data), // Hàm thực hiện mutation
+    mutationFn: (data: ILoginRequest) => loginWithAxios(data), // Hàm thực hiện mutation
     onSuccess: (data) => {
       if (data?.data?.accessToken) {
         localStorage.setItem('accessToken', data.data.accessToken) // Lưu token vào localStorage
       }
-      console.log('Đăng nhập thành công:', data.data.accessToken)
       openNotificationWithIcon('success', 'Đăng nhập thành công', 'Đăng nhập thành công')
       window.location.href = '/dashboard' // Chuyển hướng sau khi đăng nhập thành công
     },
-    onError: (error: LoginResponse) => {
+    onError: (error: ILoginResponse) => {
       setLoading(false)
-      // In lỗi và hiển thị thông báo lỗi
-      console.log('Login error: ', error)
       openNotificationWithIcon('error', 'Đăng nhập thất bại', error.meta?.internalMessage || 'Có lỗi xảy ra!')
       console.error('Login failed:', error) // In lỗi ra console để debug
     }

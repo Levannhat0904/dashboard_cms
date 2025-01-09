@@ -58,12 +58,11 @@ export const routes = [
   { path: '*', element: <NotFound /> }
 ]
 function AppRoutes() {
-  const { path, isEdit, isOpenNotify, setIsOpenNotify } = useEvenEdit() // Lấy dữ liệu từ context
-  const [api, contextHolder] = notification.useNotification()
+  const { isEdit, setIsOpenNotify } = useEvenEdit() // Lấy dữ liệu từ context
+  const [, contextHolder] = notification.useNotification()
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       if (isEdit) {
-        console.log('re-load')
         event.preventDefault()
         setIsOpenNotify(true)
         return ''

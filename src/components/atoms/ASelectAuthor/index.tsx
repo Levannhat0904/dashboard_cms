@@ -1,7 +1,7 @@
 import React from 'react'
 import { Avatar, Select, Tooltip } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
-import { IAsset, IAuthor } from '../../../utils/AxiosApiServiceLogin'
+import { IAsset, IAuthor } from '../../../interfaces'
 
 interface FilterSelectProps {
   items: IAsset[] | IAuthor[] | undefined // Mảng chứa danh sách item

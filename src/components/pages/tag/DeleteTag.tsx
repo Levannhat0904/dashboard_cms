@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Modal } from 'antd'
-import { ITag } from '../../../utils/AxiosApiServiceLogin'
 import { useDeleteTag } from '../../../hook/useTag'
+import { ITag } from '../../../interfaces'
 interface DeleteTagProps {
   isModalDeleteOpen: boolean
   setIsModalDeleteOpen: (v: boolean) => void

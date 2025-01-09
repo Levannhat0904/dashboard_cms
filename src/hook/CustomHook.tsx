@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { fetchPosts, FetchPostsParams, fetchPostsV2, IFetchPostsResponse } from '../utils/AxiosApiServiceLogin'
+import { IFetchPostsParams, IFetchPostsResponse } from '../interfaces'
+import { fetchPosts, fetchPostsV2 } from '../api/post'
 
 export const usePosts = (
   page?: number,
@@ -15,7 +16,7 @@ export const usePosts = (
   })
 }
 // Custom hook sử dụng React Query
-export const usePostsV2 = (params: FetchPostsParams): UseQueryResult<IFetchPostsResponse> => {
+export const usePostsV2 = (params: IFetchPostsParams): UseQueryResult<IFetchPostsResponse> => {
   return useQuery({
     queryKey: ['postsWithAuthorsV2', { ...params }],
     queryFn: () => fetchPostsV2(params),

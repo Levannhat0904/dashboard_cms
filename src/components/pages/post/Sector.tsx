@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Tag, Tooltip } from 'antd'
-import { ISector, ITag } from '../../../utils/AxiosApiServiceLogin'
+import { ISector, ITag } from '../../../interfaces'
 
 // Định nghĩa Interface cho Tag
 

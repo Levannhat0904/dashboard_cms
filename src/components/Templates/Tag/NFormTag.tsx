@@ -1,8 +1,7 @@
 import { App, Breadcrumb, FormInstance, Layout } from 'antd'
-import { Link } from 'react-router-dom'
 import NFormSection from '../../organisms/NFormSection'
-import { ITag } from '../../../utils/AxiosApiServiceLogin'
 import useCustomNavigate from '../../../hook/useCustomNavigate'
+import { ITag } from '../../../interfaces'
 
 interface PageTemplateProps {
   dataReceived?: ITag

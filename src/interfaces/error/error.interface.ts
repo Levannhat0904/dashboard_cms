@@ -1,4 +1,4 @@
-import { IMeta } from "../common.interface";
+import { IMeta } from '../common.interface'
 
 export interface IErrorResponse {
   meta: IMeta

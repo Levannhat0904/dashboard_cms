@@ -5,8 +5,8 @@ import NFormButtons from '../../molecules/NFormButtons'
 import { validateSlug } from '../../../utils'
 import NFormSEO from '../../molecules/NFormSEO'
 import { useState } from 'react'
-import { ITag } from '../../../utils/AxiosApiServiceLogin'
 import { useEvenEdit } from '../../../contexts/EventContext'
+import { ITag } from '../../../interfaces'
 
 interface FormSectionProps {
   initialValues: ITag | undefined

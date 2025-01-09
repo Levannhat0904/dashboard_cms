@@ -1,20 +1,12 @@
 import { useMutation, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import {
-  addTag,
-  deleteTag,
-  editTag,
-  fetchTagById,
-  fetchTags,
-  FetchTagsParams,
-  IFetchTagsResponse,
-  ITag
-} from '../utils/AxiosApiServiceLogin'
+import { IFetchTagsParams, IFetchTagsResponse, ITag } from '../interfaces'
+import { addTag, deleteTag, editTag, fetchTagById, fetchTags } from '../api/tag'
 
 interface TagIdParams {
   id: string
   newData?: ITag
 }
-export const useTags = (params: FetchTagsParams): UseQueryResult<IFetchTagsResponse> => {
+export const useTags = (params: IFetchTagsParams): UseQueryResult<IFetchTagsResponse> => {
   return useQuery({
     queryKey: ['fetchTags', { ...params }],
     queryFn: () => fetchTags(params),
@@ -25,30 +17,18 @@ export const useTags = (params: FetchTagsParams): UseQueryResult<IFetchTagsRespo
 export const useAddTag = () => {
   return useMutation({
     mutationFn: addTag, // Hàm thực hiện thêm tag
-    onSuccess: (response) => {
-      console.log('Tag đã được thêm thành công:', response.data) // Thành công
-    },
-    onError: (error: Error) => {
-      console.error('Lỗi khi thêm tag:', error.message) // Lỗi
-    },
-    onSettled: () => {
-      console.log('Quá trình thêm tag đã kết thúc') // Khi quá trình hoàn tất (dù thành công hay thất bại)
-    }
   })
 }
 export const useUpdateTag = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ id, newData }: TagIdParams) => editTag(id, newData),
-    onSuccess: (response) => {
-      console.log('Tag đã được cập nhật thành công:', response.data) // Thành công
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fetchTags'] })
     },
-    onError: (error: Error) => {
-      console.error('Lỗi khi cập nhật tag:', error.message) // Lỗi
+    onError: () => {
     },
     onSettled: () => {
-      console.log('Quá trình cập nhật tag đã kết thúc') // Khi quá trình hoàn tất (dù thành công hay thất bại)
     }
   })
 }
@@ -57,15 +37,6 @@ export const useFetchTagById = () => {
   // const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ id }: TagIdParams) => fetchTagById(id),
-    onSuccess: (response) => {
-      console.log('thành công:', response.data) // Thành công
-    },
-    onError: (error: Error) => {
-      console.error('Lỗi tag:', error.message) // Lỗi
-    },
-    onSettled: () => {
-      console.log('Quá trình tag đã kết thúc') // Khi quá trình hoàn tất (dù thành công hay thất bại)
-    }
   })
 }
 export const useDeleteTag = () => {
@@ -80,7 +51,6 @@ export const useDeleteTag = () => {
       console.error('Lỗi khi cập nhật tag:', error.message) // Lỗi
     },
     onSettled: () => {
-      console.log('Quá trình cập nhật tag đã kết thúc')
     }
   })
 }

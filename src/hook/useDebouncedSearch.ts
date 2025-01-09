@@ -46,11 +46,9 @@ const useDebouncedSearch = (
 ) => {
   const { delay = 1000, defaultPageSize = 10 } = options || {}
   const [currentParams, setCurrentParams] = useState<Record<string, string>>({})
-  console.log("currentParams: ", currentParams)
 
   const debouncedSearch = useCallback(
     debounce((value: string) => {
-
       // const updatedParams = {
       //   ...currentParams, // Lấy tham số hiện tại
       //   page: '1', // Reset page khi tìm kiếm mới
@@ -58,16 +56,15 @@ const useDebouncedSearch = (
       //   s: value // Cập nhật giá trị tìm kiếm
       // }
 
-      const urlParams = new URLSearchParams(window.location.search);
+      const urlParams = new URLSearchParams(window.location.search)
       const updatedParams = {
         ...Object.fromEntries(urlParams.entries()), // Chuyển đổi các tham số URL thành đối tượng
         page: '1', // Reset page khi tìm kiếm mới
         pageSize: currentParams.pageSize || defaultPageSize.toString(),
-        s: value, // Cập nhật giá trị tìm kiếm
-      };
+        s: value // Cập nhật giá trị tìm kiếm
+      }
       setCurrentParams(updatedParams) // Lưu tham số mới
       setSearchParams(updatedParams) // Gửi tham số ra ngoài
-
     }, delay),
     [currentParams, defaultPageSize, delay, setSearchParams]
   )

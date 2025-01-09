@@ -3,12 +3,12 @@ import React, { useState } from 'react'
 import { Avatar, Button, Layout, Space, Table, Input } from 'antd'
 import type { TableProps } from 'antd'
 import { useTags } from '../../../hook/useTag'
-import { ITag } from '../../../utils/AxiosApiServiceLogin'
 import { usePaginationV2 } from '../../../hook/usePagination'
 import DeleteTag from './DeleteTag'
 const { Search } = Input
 import { DeleteOutlined, EditOutlined, UserOutlined } from '@ant-design/icons'
 import useDebouncedSearch from '../../../hook/useDebouncedSearch'
+import { ITag } from '../../../interfaces'
 const TestPostL1: React.FC = () => {
   const columns: TableProps<ITag>['columns'] = [
     {
@@ -70,6 +70,7 @@ const TestPostL1: React.FC = () => {
   const pageSize = parseInt(searchParams.get('pageSize') || '10', 10)
   const searchQuery = searchParams.get('s') || ''
   const { data, isFetching } = useTags({ page, pageSize, s: searchQuery })
+  console.log(data)
   const { handleOnPageChange } = usePaginationV2()
   const handleInputSearchChange = useDebouncedSearch(setSearchParams, {
     delay: 1000,

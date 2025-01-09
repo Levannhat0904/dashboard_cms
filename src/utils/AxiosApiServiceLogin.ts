@@ -223,7 +223,6 @@
 //       method: 'POST',
 //       data // Gửi dữ liệu đăng nhập
 //     })
-//     console.log('response: ', response)
 //     return response
 //   } catch (error) {
 //     // Lỗi sẽ chứa toàn bộ dữ liệu lỗi từ API
@@ -242,7 +241,6 @@
 //       }
 //     })
 //     // console.info("Thông tin bài viết:", response.data.datas);
-//     // console.log(response.data)
 //     return response
 //   } catch (error) {
 //     console.error('Không thể lấy thông tin bài viết:', error)
@@ -326,7 +324,6 @@
 //       params
 //     })
 //     // Trả về dữ liệu gộp
-//     console.log('check data: ', postsResponse.data)
 //     return {
 //       posts: postsResponse.data
 //     }
@@ -357,14 +354,12 @@
 //       params
 //     })
 //     // Trả về dữ liệu gộp
-//     console.log('check data: ', postsResponse.data)
 //     return {
 //       tags: postsResponse
 //     }
 //   } catch (error: unknown) {
 //     // Kiểm tra kiểu của lỗi
 //     if (axios.isAxiosError(error)) {
-//       console.log('error: ', error)
 //       console.error('Lỗi khi lấy dữ liệu từ API:', error.response?.data)
 //     } else {
 //       console.error('Lỗi không xác định:', error)
@@ -387,7 +382,6 @@
 //     const response = await client.post('/api/v1/cms/commons/upload-images', formData, config)
 
 //     // Trả về URL ảnh từ dữ liệu trả về
-//     console.log('img: ', response.data.data.url)
 //     return response.data.data.url // URL ảnh sau khi upload thành công
 //   } catch (error) {
 //     console.error('Lỗi khi tải ảnh lên:', error)
@@ -397,9 +391,7 @@
 
 // export const addTag = async (value: ITag) => {
 //   try {
-//     console.log('Request payload:', value)
 //     const response = await client.post('/api/v1/cms/tags', value)
-//     console.log('response tag', response)
 //     return response
 //   } catch (error) {
 //     console.error('Lỗi khi tải dữ liệu lên:', error)
@@ -408,9 +400,7 @@
 // }
 // export const editTag = async (id: string, newData?: ITag) => {
 //   try {
-//     console.log('Request payload:', newData)
 //     const response = await client.put(`/api/v1/cms/tags/${id}`, newData)
-//     console.log('response tag', response)
 //     return response
 //   } catch (error) {
 //     console.error('Lỗi khi update dữ liệu lên:', error)
@@ -419,9 +409,7 @@
 // }
 // export const fetchTagById = async (id: string) => {
 //   try {
-//     console.log('Request payload:', id)
 //     const response = await client.get(`/api/v1/cms/tags/${id}`)
-//     console.log('response tag', response)
 //     return response
 //   } catch (error) {
 //     console.error('Lỗi khi update dữ liệu lên:', error)
@@ -430,9 +418,7 @@
 // }
 // export const deleteTag = async (id: string) => {
 //   try {
-//     console.log('Request payload:', id)
 //     const response = await client.delete(`/api/v1/cms/tags/${id}`)
-//     console.log('response tag', response)
 //     return response
 //   } catch (error) {
 //     console.error('Lỗi khi update dữ liệu lên:', error)

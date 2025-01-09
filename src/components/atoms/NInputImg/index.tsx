@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Form, FormInstance, Upload, UploadFile } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { useUploadImage } from '../../../hook/useUploadImage'
-import { ITag } from '../../../utils/AxiosApiServiceLogin'
+import { ITag } from '../../../interfaces'
 
 interface InputImgProps {
   name: string
@@ -37,12 +37,10 @@ const NInputImg: React.FC<InputImgProps> = ({ name, label, initialValues, form, 
   useEffect(() => {
     setFileList(defaultFileList)
   }, [])
-  console.log(defaultFileList)
   // Sử dụng useEffect để theo dõi trạng thái và hiển thị thông báo
   useEffect(() => {
     if (isSuccess && data) {
       form.setFieldsValue({ [name]: data }) // Lưu URL ảnh vào form
-      console.log('URL ảnh tải lên:', data) // Dữ liệu trả về là URL của ảnh
       setUploading(false)
     } else if (isPending) {
       setUploading(true)
@@ -55,7 +53,6 @@ const NInputImg: React.FC<InputImgProps> = ({ name, label, initialValues, form, 
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   )
-  console.log('featureImage', initialValues)
 
   return (
     <Form.Item label={label} name={name}>

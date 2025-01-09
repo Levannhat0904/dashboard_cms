@@ -18,10 +18,6 @@ const ModalAddTag: React.FC<ModalAddTagProps> = ({ isModalOpen, setIsModalOpen }
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
-  // const [isModalOpen, setIsModalOpen] = useState(false)
-  // const handleFinish = (values) => {
-  //   console.log('Form Submitted:', values)
-  // }
   const handleOk = () => {
     setIsModalOpen(false)
   }
