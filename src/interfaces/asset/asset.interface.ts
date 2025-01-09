@@ -5,3 +5,12 @@ export interface IAsset {
   iconUrl?: string
   id?: string
 }
+export interface IApiAssetsResponse {
+  meta: {
+    status: number
+    success?: boolean
+    externalMessage: string
+    internalMessage: string
+  }
+  data: IAsset[]
+}

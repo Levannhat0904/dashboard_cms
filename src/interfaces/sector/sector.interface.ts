@@ -7,3 +7,12 @@ export interface ISector {
   iconUrl?: string
   parent?: string
 }
+export interface IApiSectorsResponse {
+  meta: {
+    status: number
+    success?: boolean
+    externalMessage: string
+    internalMessage: string
+  }
+  data: ISector[]
+}

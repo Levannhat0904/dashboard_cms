@@ -1,8 +1,8 @@
-import { ITag } from "../tag.interface"
-import { ISector } from '../sector.interface';
+import { ITag } from "../tag/tag.interface"
+import { ISector } from '../sector/sector.interface';
 import { IAuthor } from "../author/author.interface";
 import { IAsset } from "../asset/asset.interface";
-import { IPostType } from "../postType.interface";
+import { IPostType } from "../postType/postType.interface";
 
 export interface IPost {
   id?: string
@@ -25,4 +25,56 @@ export interface IPost {
   publishedAt?: string | null
   createdAt?: string
   updatedAt?: string
+}
+export interface IApiPostResponse {
+  meta: {
+    status: number
+    success?: boolean
+    externalMessage: string
+    internalMessage: string
+  }
+  data: {
+    page: number
+    pageSize: number
+    total: number
+    datas: IPost[]
+  }
+}
+export interface IFetchPostsResponse {
+  posts: {
+    data: {
+      page: number
+      pageSize: number
+      total: number
+      datas: IPost[]
+    }
+    meta: {
+      status: number
+      success?: boolean
+      externalMessage: string
+      internalMessage: string
+    }
+  }
+}
+// ===
+export interface IApiUserResponse {
+  meta: {
+    status: number
+    success?: boolean
+    externalMessage: string
+    internalMessage: string
+  }
+  data: {
+    page: number
+    pageSize: number
+    total: number
+    data: IPost[]
+  }
+}
+export interface FetchPostsParams {
+  page?: number
+  pageSize?: number
+  authors?: string[]
+  s?: string
+  assets?: string[]
 }
