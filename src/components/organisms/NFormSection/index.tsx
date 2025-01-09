@@ -4,9 +4,8 @@ import NInputImg from '../../atoms/NInputImg'
 import NFormButtons from '../../molecules/NFormButtons'
 import { validateSlug } from '../../../utils'
 import NFormSEO from '../../molecules/NFormSEO'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ITag } from '../../../utils/AxiosApiServiceLogin'
-import NNotify from '../../atoms/NNotify'
 import { useEvenEdit } from '../../../contexts/EventContext'
 
 interface FormSectionProps {
@@ -29,9 +28,9 @@ const NFormSection: React.FC<FormSectionProps> = ({
   // setEvenEdit
 }) => {
   const [uploading, setUploading] = useState(false)
-  const { evenEdit, setEvenEdit } = useEvenEdit()
+  const { isEdit, setIsEdit } = useEvenEdit()
   const handleChange = () => {
-    setEvenEdit(true)
+    setIsEdit(true)
   }
 
   return (

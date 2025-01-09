@@ -1,37 +1,63 @@
-import { notification } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { notification, Space, Button } from 'antd'
+import { useEvenEdit } from '../../../contexts/EventContext' // Giả sử bạn đã có context này
+import { useNavigate } from 'react-router-dom'
 
-const useCustomNotification = () => {
+const close = () => {
+  console.log('Notification was closed. Either the close button was clicked or duration time elapsed.')
+}
+
+const NNotify: React.FC = () => {
+  const navigate = useNavigate()
+  const { path, setIsEdit, isOpenNotify, setIsOpenNotify } = useEvenEdit() // Lấy dữ liệu từ context
   const [api, contextHolder] = notification.useNotification()
+  // Tách hàm xử lý Destroy All
+  const handleDestroyAll = () => {
+    api.destroy() // Phá hủy tất cả thông báo
+  }
 
-  const openNotification = ({
-    message = 'Notification Title',
-    description = 'Default description for the notification.',
-    key,
-    btn,
-    duration = 4.5,
-    onClose
-  }) => {
-    const uniqueKey = key || `open${Date.now()}`
+  // Tách hàm xử lý Confirm
+  const handleConfirm = (key: string) => {
+    setIsEdit(false)
+    navigate(path)
+    api.destroy(key) // Phá hủy thông báo có key cụ thể
+  }
+  // Mở thông báo khi isOpenNotify là true
+  useEffect(() => {
+    if (isOpenNotify) {
+      openNotification()
+      // Reset isOpenNotify để ngừng việc mở thông báo tự động lần sau (nếu cần)
+      setIsOpenNotify(false) // Nếu bạn muốn thông báo chỉ được mở một lần
+    }
+  }, [isOpenNotify, setIsOpenNotify]) // Theo dõi sự thay đổi của isOpenNotify
+
+  const openNotification = () => {
+    const key = `open${Date.now()}`
+    const btn = (
+      <Space>
+        <Button type='link' size='small' onClick={() => handleDestroyAll()}>
+          Cancel
+        </Button>
+        <Button type='primary' size='small' onClick={() => handleConfirm(key)}>
+          Confirm
+        </Button>
+      </Space>
+    )
     api.open({
-      message,
-      description,
-      key: uniqueKey,
+      message: 'Notification Title',
+      description:
+        'A function will be called after the notification is closed (automatically after the "duration" time or manually).',
       btn,
-      duration,
-      onClose: onClose || (() => console.log('Notification closed:', uniqueKey))
+      key,
+      onClose: close
     })
   }
 
-  const closeNotification = (key) => {
-    if (key) {
-      api.destroy(key)
-    } else {
-      api.destroy()
-    }
-  }
-
-  return { openNotification, closeNotification, contextHolder }
+  return (
+    <>
+      {contextHolder} {/* Đảm bảo contextHolder luôn được render để hiển thị thông báo */}
+    </>
+  )
 }
 
-export default useCustomNotification
+export default NNotify

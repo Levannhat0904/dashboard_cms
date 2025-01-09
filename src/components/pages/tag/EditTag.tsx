@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 import { useFetchTagById, useUpdateTag } from '../../../hook/useTag'
 import NFormTag from '../../Templates/Tag/NFormTag'
 import { ITag } from '../../../utils/AxiosApiServiceLogin'
-import useLeavePageConfirm from '../../../hook/usePreventNavigation'
 
 const EditTag = () => {
   const [form] = Form.useForm()

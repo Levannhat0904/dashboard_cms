@@ -2,8 +2,7 @@ import { App, Breadcrumb, FormInstance, Layout } from 'antd'
 import { Link } from 'react-router-dom'
 import NFormSection from '../../organisms/NFormSection'
 import { ITag } from '../../../utils/AxiosApiServiceLogin'
-import NNotify from '../../atoms/NNotify'
-import usePreventNavigation from '../../../hook/usePreventNavigation'
+import useCustomNavigate from '../../../hook/useCustomNavigate'
 
 interface PageTemplateProps {
   dataReceived?: ITag
@@ -28,11 +27,25 @@ const NFormTag: React.FC<PageTemplateProps> = ({
 }) => {
   // const { evenEdit, setEvenEdit } = useEvenEdit()
   // const handleNavigate = usePreventNavigation(evenEdit)
+  const navigate = useCustomNavigate()
+  const handleNavigate = (to: string) => {
+    navigate(to) // Điều hướng đến trang được chỉ định
+  }
   return (
     <Layout>
       <Breadcrumb
         className='my-2 mx-2'
-        items={[{ title: <Link to='/dashboard/tag'>Tag</Link> }, { title: dataReceived?.name }]}
+        // items={[{ title: <Link to='/dashboard/tag'>Tag</Link> }, { title: dataReceived?.name }]}
+        items={[
+          {
+            title: (
+              <span onClick={() => handleNavigate('/dashboard/tag')} style={{ cursor: 'pointer' }}>
+                Tag
+              </span>
+            )
+          },
+          { title: dataReceived?.name }
+        ]}
       />
       {/* {dataReceived ? ( */}
       <App>

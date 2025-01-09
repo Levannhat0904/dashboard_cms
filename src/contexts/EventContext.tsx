@@ -2,8 +2,12 @@ import React, { createContext, useState, useContext, ReactNode } from 'react'
 
 // Định nghĩa kiểu dữ liệu cho context
 interface EvenEditContextType {
-  evenEdit: boolean
-  setEvenEdit: (value: boolean) => void
+  isEdit: boolean
+  setIsEdit: (value: boolean) => void
+  isOpenNotify: boolean
+  setIsOpenNotify: (value: boolean) => void
+  path: string
+  setPath: (value: string) => void
 }
 
 // Tạo context với kiểu dữ liệu đã định nghĩa
@@ -14,10 +18,16 @@ interface EvenEditProviderProps {
   children: ReactNode
 }
 export const EvenEditProvider: React.FC<EvenEditProviderProps> = ({ children }) => {
-  const [evenEdit, setEvenEdit] = useState<boolean>(false)
+  const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [isOpenNotify, setIsOpenNotify] = useState<boolean>(false)
+  const [path, setPath] = useState<boolean>(false)
 
-  console.log(evenEdit)
-  return <EvenEditContext.Provider value={{ evenEdit, setEvenEdit }}>{children}</EvenEditContext.Provider>
+  console.log(isEdit)
+  return (
+    <EvenEditContext.Provider value={{ path, setPath, isOpenNotify, setIsOpenNotify, isEdit, setIsEdit }}>
+      {children}
+    </EvenEditContext.Provider>
+  )
 }
 
 // Custom hook để dễ dàng sử dụng context trong các component con

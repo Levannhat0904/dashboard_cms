@@ -1,6 +1,7 @@
 import { DesktopOutlined, PieChartOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons'
 import { ConfigProvider, Menu } from 'antd'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
+import useCustomNavigate from '../../../hook/useCustomNavigate'
 const items = [
   {
     key: '1',
@@ -62,6 +63,21 @@ const items = [
   }
 ]
 const CustomMenu = () => {
+  const navigate = useCustomNavigate()
+  const handleNavigate = (to: string) => {
+    navigate(to) // Điều hướng đến trang được chỉ định
+  }
+  // items={[{ title: <Link to='/dashboard/tag'>Tag</Link> }, { title: dataReceived?.name }]}
+  //  items={[
+  //   {
+  //     title: (
+  //       <span onClick={() => handleNavigate('/dashboard/tag')} style={{ cursor: 'pointer', color: 'blue' }}>
+  //         Tag
+  //       </span>
+  //     )
+  //   },
+  //   { title: dataReceived?.name }
+  // ]}
   const menuItems = items.map((item) => {
     if (item.children) {
       return {
@@ -73,18 +89,11 @@ const CustomMenu = () => {
           key: child.key,
           icon: child.icon,
           label: (
-            <NavLink
-              to={child.path}
-              end
-              // className={({ isActive }) =>
-              //   isActive
-              //     ? '!text-red-500 !no-underline custom-classs'
-              //     : 'text-[#038fde] !no-underline group-hover:!text-red-500'
-              // }
-            >
+            <div onClick={() => handleNavigate(child.path)} style={{ cursor: 'pointer', color: 'blue' }}>
               {child.label}
-            </NavLink>
+            </div>
           ),
+          // label: <Link to={child.path}>{child.label}</Link>,
           className: 'custom-classs'
         }))
       }
@@ -94,15 +103,12 @@ const CustomMenu = () => {
       key: item.key,
       icon: item.icon,
       label: (
-        <NavLink
-          to={item.path}
-          end
-          // className={({ isActive }) =>
-          //   isActive ? '!text-red-500 !no-underline custom-class' : 'text-[#038fde] group-hover:!text-red-500'
-          // }
-        >
+        // <NavLink to={item.path} end>
+        //   {item.label}
+        // </NavLink>
+        <div onClick={() => handleNavigate(item.path)} style={{ cursor: 'pointer' }}>
           {item.label}
-        </NavLink>
+        </div>
       ),
       className: item.className // Áp dụng className cho từng item riêng biệt
     }

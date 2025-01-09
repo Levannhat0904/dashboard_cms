@@ -10,6 +10,9 @@ import Tag from '../components/pages/tag'
 import PPost from '../components/pages/post'
 import AddTag from '../components/pages/tag/AddTag'
 import EditTag from '../components/pages/tag/EditTag'
+import { notification } from 'antd'
+import { useEffect } from 'react'
+import { useEvenEdit } from '../contexts/EventContext'
 export const routes = [
   // Route công khai
   { path: '/', element: <HomePage /> },
@@ -55,7 +58,32 @@ export const routes = [
   { path: '*', element: <NotFound /> }
 ]
 function AppRoutes() {
-  return useRoutes(routes) // Hook dùng để áp dụng các route đã cấu hình
+  const { path, isEdit, isOpenNotify, setIsOpenNotify } = useEvenEdit() // Lấy dữ liệu từ context
+  const [api, contextHolder] = notification.useNotification()
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (isEdit) {
+        console.log('re-load')
+        event.preventDefault()
+        setIsOpenNotify(true)
+        return ''
+        // event.returnValue = '' // Display default dialog
+      }
+    }
+    window.addEventListener('beforeunload', handleBeforeUnload)
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+    }
+  }, [isEdit])
+
+  // Return contextHolder để có thể hiển thị thông báo ở bất kỳ đâu trong app
+  return (
+    <>
+      {contextHolder} {/* Đặt contextHolder ở đây để các thông báo có thể hiển thị */}
+      {useRoutes(routes)} {/* Hook để áp dụng các route đã cấu hình */}
+    </>
+  )
 }
 
 export default AppRoutes
