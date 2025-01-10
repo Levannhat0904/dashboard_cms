@@ -16,7 +16,7 @@ export const useTags = (params: IFetchTagsParams): UseQueryResult<IFetchTagsResp
 }
 export const useAddTag = () => {
   return useMutation({
-    mutationFn: addTag, // Hàm thực hiện thêm tag
+    mutationFn: addTag // Hàm thực hiện thêm tag
   })
 }
 export const useUpdateTag = () => {
@@ -25,18 +25,13 @@ export const useUpdateTag = () => {
     mutationFn: ({ id, newData }: TagIdParams) => editTag(id, newData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fetchTags'] })
-    },
-    onError: () => {
-    },
-    onSettled: () => {
     }
   })
 }
 
 export const useFetchTagById = () => {
-  // const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: ({ id }: TagIdParams) => fetchTagById(id),
+    mutationFn: ({ id }: TagIdParams) => fetchTagById(id)
   })
 }
 export const useDeleteTag = () => {
@@ -44,13 +39,11 @@ export const useDeleteTag = () => {
   return useMutation({
     mutationFn: ({ id }: TagIdParams) => deleteTag(id),
     onSuccess: () => {
-      // queryClient.invalidateQueries('fetchTags')
       queryClient.invalidateQueries({ queryKey: ['fetchTags'] })
     },
     onError: (error: Error) => {
       console.error('Lỗi khi cập nhật tag:', error.message) // Lỗi
     },
-    onSettled: () => {
-    }
+    onSettled: () => {}
   })
 }

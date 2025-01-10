@@ -60,7 +60,6 @@ const TestPostL1: React.FC = () => {
   ]
   const navigate = useNavigate()
   const handleNavigate = (id: string | undefined, dataToSend: ITag) => {
-    // Sử dụng navigate và truyền state
     navigate(`/dashboard/tag/edit/${id}`, { state: dataToSend })
   }
   const [searchParams, setSearchParams] = useSearchParams()
@@ -70,7 +69,6 @@ const TestPostL1: React.FC = () => {
   const pageSize = parseInt(searchParams.get('pageSize') || '10', 10)
   const searchQuery = searchParams.get('s') || ''
   const { data, isFetching } = useTags({ page, pageSize, s: searchQuery })
-  console.log(data)
   const { handleOnPageChange } = usePaginationV2()
   const handleInputSearchChange = useDebouncedSearch(setSearchParams, {
     delay: 1000,

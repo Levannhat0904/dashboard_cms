@@ -34,8 +34,8 @@ const OSignInForm: React.FC = () => {
     },
     onError: (error: ILoginResponse) => {
       setLoading(false)
-      openNotificationWithIcon('error', 'Đăng nhập thất bại', error.meta?.internalMessage || 'Có lỗi xảy ra!')
-      console.error('Login failed:', error) // In lỗi ra console để debug
+      console.log(error)
+      openNotificationWithIcon('error', 'Login failed', error.response?.data.meta.internalMessage || 'Có lỗi xảy ra!')
     }
   })
   const onFinishFailed = () => {

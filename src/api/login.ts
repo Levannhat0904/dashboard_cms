@@ -16,19 +16,16 @@ export const requestUserLogin = async <T>(options: AxiosRequestConfig): Promise<
     // Trả về lỗi chi tiết từ API
     return Promise.reject(error.response?.data) // Ném toàn bộ lỗi từ API
   }
-
   return client(options).then(onSuccess).catch(onError)
 }
-export const loginWithAxios = async (data: ILoginRequest): Promise<ILoginResponse> => {
-  try {
-    const response = await requestUserLogin<ILoginResponse>({
-      url: '/api/v1/cms/auths/login',
-      method: 'POST',
-      data // Gửi dữ liệu đăng nhập
-    })
-    return response
-  } catch (error) {
-    console.error('Đăng nhập thất bại:', error)
-    throw error // Ném lỗi ra để React Query xử lý
-  }
+// export const loginWithAxios = async (data: ILoginRequest): Promise<ILoginResponse> => {
+//   const response = await requestUserLogin<ILoginResponse>({
+//     url: '/api/v1/cms/auths/login',
+//     method: 'POST',
+//     data // Gửi dữ liệu đăng nhập
+//   })
+//   return response
+// }
+export const loginWithAxios = async (value: ILoginRequest) => {
+  return (await client.post('/api/v1/cms/auths/login', value)).data
 }

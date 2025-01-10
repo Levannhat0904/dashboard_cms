@@ -22,12 +22,11 @@ const PPost: React.FC = () => {
   const { authors, assets } = useAuthors()
 
   // Sử dụng hook để quản lý các tham số URL
+  const { page, pageSize, s, authors: author, assets: asset } = useParams()
   const [queryParams, updateQueryParams] = useQueryParamUrl({
     assets: [],
     authors: []
   })
-
-  const { page, pageSize, s } = useParams()
 
   const { handleOnPageChange } = usePaginationV2()
 
@@ -64,16 +63,24 @@ const PPost: React.FC = () => {
       onChange: (selectedAssets: string[]) => handleSelectChange('assets', selectedAssets)
     }
   ]
+  console.log('queryParams: ', queryParams)
+  // console.log('queryParams.assets: ', queryParams.assets)
   // API call với searchParams
-  const { data, isLoading } = usePostsV2({
-    page,
-    pageSize,
-    s,
+  const { data, isLoading, error, isError } = usePostsV2({
+    page: queryParams.page,
+    pageSize: queryParams.pageSize,
+    s: queryParams.s ? queryParams.s : undefined,
     authors: queryParams.authors, // Lấy selected authors từ queryParams
     assets: queryParams.assets // Lấy selected assets từ queryParams
-    // authors: author,
-    // assets: asset
+    // page,
+    // pageSize,
+    // s,
+    // authors: queryParams.authors, // Lấy selected authors từ queryParams
+    // assets: queryParams.assets // Lấy selected assets từ queryParams
   })
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
 
   return (
     <MainPage

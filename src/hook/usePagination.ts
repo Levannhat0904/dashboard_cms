@@ -7,7 +7,6 @@ export const usePaginationV2 = (defaultPage: number = 1, defaultPageSize: number
     // Cập nhật lại tham số page và pageSize, giữ nguyên các tham số khác
     updatedParams.set('page', page.toString())
     updatedParams.set('pageSize', pageSize.toString())
-
     // Cập nhật các tham số mới vào URL
     setSearchParams(updatedParams)
 
